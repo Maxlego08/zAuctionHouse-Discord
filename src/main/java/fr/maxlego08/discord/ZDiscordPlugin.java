@@ -6,6 +6,7 @@ import javax.security.auth.login.LoginException;
 
 import fr.maxlego08.discord.listener.AuctionListener;
 import fr.maxlego08.discord.storage.Config;
+import fr.maxlego08.discord.storage.Storage;
 import fr.maxlego08.discord.zcore.ZPlugin;
 import fr.maxlego08.zauctionhouse.api.utils.Logger;
 import net.dv8tion.jda.api.JDA;
@@ -14,6 +15,12 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
+/**
+ * 
+ * @author Maxence
+ * Discord bot for zAuctionHouse plugin
+ *
+ */
 public class ZDiscordPlugin extends ZPlugin {
 
 	private boolean isReady = false;
@@ -25,16 +32,21 @@ public class ZDiscordPlugin extends ZPlugin {
 		this.preEnable();
 
 		this.addListener(new AuctionListener(this));
+
 		this.addSave(Config.getInstance());
+		this.addSave(Storage.getInstance());
 
 		this.getSavers().forEach(saver -> saver.load(this.getPersist()));
-		this.getSavers().forEach(saver -> saver.save(this.getPersist()));
+		
+		//Refresh configuration with new field
+		Config.getInstance().save(this.getPersist());
 
 		// Log bot
 
 		String token = Config.discordToken;
 		List<GatewayIntent> intents = Config.gatewayIntents;
 
+		//Load bot
 		Thread thread = new Thread(() -> {
 
 			try {
@@ -65,18 +77,27 @@ public class ZDiscordPlugin extends ZPlugin {
 
 		this.preDisable();
 
-		if (jda != null) {
+		if (jda != null)
 			jda.shutdownNow();
-		}
+
+		Storage.getInstance().save(this.getPersist());
 
 		this.postDisable();
 
 	}
 
+	/**
+	 * Get jda instance
+	 * @return {@link JDA}
+	 */
 	public JDA getJda() {
 		return jda;
 	}
 
+	/**
+	 * Check if plugin is ready
+	 * @return boolean
+	 */
 	public boolean isReady() {
 		return isReady;
 	}

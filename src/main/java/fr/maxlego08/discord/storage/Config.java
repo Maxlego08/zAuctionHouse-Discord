@@ -1,18 +1,39 @@
 package fr.maxlego08.discord.storage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.bukkit.enchantments.Enchantment;
+
+import fr.maxlego08.discord.embed.EmbedField;
+import fr.maxlego08.discord.zcore.utils.Color;
 import fr.maxlego08.discord.zcore.utils.storage.Persist;
 import fr.maxlego08.discord.zcore.utils.storage.Saveable;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
+@SuppressWarnings("deprecation")
 public class Config implements Saveable {
 
 	public static String discordToken = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
 	public static long channelID = 807991026186715146l;
 	public static List<GatewayIntent> gatewayIntents = new ArrayList<GatewayIntent>();
+	
+	
+	public static boolean use = false;
+	public static boolean useTimestamp = true;
+	public static boolean removeMessage = true;
+	public static boolean editMessage = false;
+	public static String game = "zAuctionHouse VDEV-2.0.1.0";
+	public static Color embedColor = new Color(255, 0, 0);
+	public static Color embedColorEdit = new Color(0, 255, 0);
+	public static String header = "none";
+	public static String headerEdit = "Sold !";
+	public static String footer = "zAuctionHouse";
+	public static List<EmbedField> embeds = new ArrayList<EmbedField>();
+	public static Map<String, String> enchantments = new HashMap<>();
 	
 	static {
 		gatewayIntents.add(GatewayIntent.GUILD_MEMBERS);
@@ -21,6 +42,13 @@ public class Config implements Saveable {
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGE_REACTIONS);
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGES);
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGE_TYPING);
+		
+		for(Enchantment enchantment : Enchantment.values()){
+			enchantments.put(enchantment.getName(), enchantment.getName());
+		}
+		
+		embeds.add(new EmbedField("Sale", "Player **%seller%** just added x%amount% %material% for **%price%%currency%**", false));	
+		embeds.add(new EmbedField("Enchantment", "Item enchantment: **%enchant%**", false, false));
 	}
 
 	/**
