@@ -10,6 +10,7 @@ import fr.maxlego08.discord.zcore.ZPlugin;
 import fr.maxlego08.zauctionhouse.api.utils.Logger;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
@@ -37,11 +38,14 @@ public class ZDiscordPlugin extends ZPlugin {
 		Thread thread = new Thread(() -> {
 
 			try {
+
 				JDABuilder builder = JDABuilder.create(token, intents);
 				builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 				jda = builder.build();
+				jda.getPresence().setActivity(Activity.playing("zAuctionHouse V3"));
 				Logger.info("Loading of the discord bot successfully completed.");
 				isReady = true;
+
 			} catch (LoginException e) {
 
 				isReady = false;

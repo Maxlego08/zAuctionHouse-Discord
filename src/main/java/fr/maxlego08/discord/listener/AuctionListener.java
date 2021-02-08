@@ -36,7 +36,7 @@ public class AuctionListener implements Listener {
 
 		JDA jda = plugin.getJda();
 		
-		TextChannel channel = jda.getTextChannelById(Config.channel);
+		TextChannel channel = jda.getTextChannelById(Config.channelID);
 		System.out.println(channel);
 		
 		channel.sendMessage(player.getName() + " vient de vendre " + auctionItem.getItemStack() + " pour " + price + " "

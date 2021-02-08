@@ -11,14 +11,16 @@ public class Config implements Saveable {
 
 	public static String discordToken = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
-	public static long channel = 807991026186715146l;
-	public static long guildId = 511516467615760405l;
-
+	public static long channelID = 807991026186715146l;
 	public static List<GatewayIntent> gatewayIntents = new ArrayList<GatewayIntent>();
-
+	
 	static {
-		for (GatewayIntent gatewayIntent : GatewayIntent.values())
-			gatewayIntents.add(gatewayIntent);
+		gatewayIntents.add(GatewayIntent.GUILD_MEMBERS);
+		gatewayIntents.add(GatewayIntent.GUILD_EMOJIS);
+		gatewayIntents.add(GatewayIntent.DIRECT_MESSAGES);
+		gatewayIntents.add(GatewayIntent.GUILD_MESSAGE_REACTIONS);
+		gatewayIntents.add(GatewayIntent.GUILD_MESSAGES);
+		gatewayIntents.add(GatewayIntent.GUILD_MESSAGE_TYPING);
 	}
 
 	/**
