@@ -72,7 +72,7 @@ public class AuctionListener extends ZUtils implements Listener {
 
 	@EventHandler
 	public void onExpire(AuctionItemExpireEvent event) {
-		AuctionItem auctionItem = event.getItem();
+		AuctionItem auctionItem = event.getAuctionItem();
 		remove(auctionItem);
 	}
 

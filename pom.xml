@@ -49,7 +49,7 @@
 
 		<repository>
 			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
+			<url>https://jitpack.io/</url>
 		</repository>
 
 	</repositories>
@@ -59,8 +59,7 @@
 		<dependency>
 			<groupId>com.github.Maxlego08</groupId>
 			<artifactId>zAuctionHouseV3-API</artifactId>
-			<version>master-SNAPSHOT</version>
-			<scope>provided</scope>
+			<version>3.0.0</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
