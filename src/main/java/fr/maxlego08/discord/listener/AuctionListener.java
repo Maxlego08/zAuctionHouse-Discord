@@ -15,10 +15,13 @@ import fr.maxlego08.discord.storage.Config;
 import fr.maxlego08.discord.storage.Storage;
 import fr.maxlego08.discord.zcore.utils.ZUtils;
 import fr.maxlego08.zauctionhouse.api.AuctionItem;
+import fr.maxlego08.zauctionhouse.api.event.events.AuctionAdminRemoveEvent;
 import fr.maxlego08.zauctionhouse.api.event.events.AuctionItemExpireEvent;
 import fr.maxlego08.zauctionhouse.api.event.events.AuctionPostBuyEvent;
 import fr.maxlego08.zauctionhouse.api.event.events.AuctionRetrieveEvent;
 import fr.maxlego08.zauctionhouse.api.event.events.AuctionSellEvent;
+import fr.maxlego08.zauctionhouse.api.utils.Logger;
+import fr.maxlego08.zauctionhouse.api.utils.Logger.LogType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
@@ -44,11 +47,27 @@ public class AuctionListener extends ZUtils implements Listener {
 		JDA jda = plugin.getJda();
 		TextChannel channel = jda.getTextChannelById(Config.channelID);
 
+		if (channel == null) {
+			Logger.info("Unable to find the channel discord, please check your configuration.", LogType.ERROR);
+			return;
+		}
+
 		runAsync(() -> {
 
 			EmbedBuilder builder = getBuilder(auctionItem, false);
+			
+			if (builder == null) {
+				Logger.info("Unable to find the embed builder, please check your configuration.", LogType.ERROR);
+				return;
+			}
+			
 			Message message = channel.sendMessage(builder.build()).complete();
 
+			if (message == null) {
+				Logger.info("Unable to create the message, please check your configuration.", LogType.ERROR);
+				return;
+			}
+			
 			DiscordMessage discordMessage = new DiscordMessage(channel.getIdLong(), message.getIdLong(),
 					auctionItem.getUniqueId());
 
@@ -60,6 +79,12 @@ public class AuctionListener extends ZUtils implements Listener {
 
 	@EventHandler
 	public void onRetrieve(AuctionRetrieveEvent event) {
+		AuctionItem auctionItem = event.getAuctionItem();
+		remove(auctionItem);
+	}
+
+	@EventHandler
+	public void onRetrieve(AuctionAdminRemoveEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
 		remove(auctionItem);
 	}

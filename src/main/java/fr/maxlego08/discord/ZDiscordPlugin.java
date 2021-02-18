@@ -68,6 +68,7 @@ public class ZDiscordPlugin extends ZPlugin {
 		}, "zDiscord-BOT");
 		thread.start();
 
+
 		this.postEnable();
 
 	}
@@ -101,5 +102,6 @@ public class ZDiscordPlugin extends ZPlugin {
 	public boolean isReady() {
 		return isReady;
 	}
+	
 
 }

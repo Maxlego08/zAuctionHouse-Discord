@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.maxlego08.zauctionhouse</groupId>
 	<artifactId>zDiscord</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>zAuctionHouse Discord</name>
 
 	<build>
@@ -32,11 +32,6 @@
 
 	<repositories>
 		<repository>
-			<id>repsy</id>
-			<url>https://repo.repsy.io/mvn/maxlego08/zauctionhouse</url>
-		</repository>
-
-		<repository>
 			<id>jcenter</id>
 			<name>jcenter-bintray</name>
 			<url>https://jcenter.bintray.com</url>
@@ -59,7 +54,8 @@
 		<dependency>
 			<groupId>com.github.Maxlego08</groupId>
 			<artifactId>zAuctionHouseV3-API</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.6</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
