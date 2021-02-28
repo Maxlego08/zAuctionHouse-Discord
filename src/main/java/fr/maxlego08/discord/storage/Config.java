@@ -42,6 +42,8 @@ public class Config implements Saveable {
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGE_REACTIONS);
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGES);
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGE_TYPING);
+		gatewayIntents.add(GatewayIntent.GUILD_PRESENCES);
+		gatewayIntents.add(GatewayIntent.GUILD_VOICE_STATES);
 		
 		for(Enchantment enchantment : Enchantment.values()){
 			enchantments.put(enchantment.getName(), enchantment.getName());

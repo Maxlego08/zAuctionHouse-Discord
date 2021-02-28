@@ -1,7 +1,7 @@
 name: zAuctionHouse-Discord
 author: Maxlego08
 main: fr.maxlego08.discord.ZDiscordPlugin
-version: 1.0.0.1
+version: 1.0.3
 depend: 
  - zAuctionHouseV3
 commands:

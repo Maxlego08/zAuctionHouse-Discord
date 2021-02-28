@@ -45,30 +45,43 @@ public class AuctionListener extends ZUtils implements Listener {
 		AuctionItem auctionItem = event.getAuctionItem();
 
 		JDA jda = plugin.getJda();
-		TextChannel channel = jda.getTextChannelById(Config.channelID);
+
+		if (jda == null) {
+			Logger.info("Impossible to find JDA, did you give permissions to your bot?", LogType.ERROR);
+			return;
+		}
+		TextChannel channel = null;
+		try {
+
+			channel = jda.getTextChannelById(Config.channelID);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Logger.info("Impossible to find channel, did you give permissions to your bot?", LogType.ERROR);
+		}
 
 		if (channel == null) {
 			Logger.info("Unable to find the channel discord, please check your configuration.", LogType.ERROR);
 			return;
 		}
 
+		TextChannel finalChannel = channel;
 		runAsync(() -> {
 
 			EmbedBuilder builder = getBuilder(auctionItem, false);
-			
+
 			if (builder == null) {
 				Logger.info("Unable to find the embed builder, please check your configuration.", LogType.ERROR);
 				return;
 			}
-			
-			Message message = channel.sendMessage(builder.build()).complete();
+
+			Message message = finalChannel.sendMessage(builder.build()).complete();
 
 			if (message == null) {
 				Logger.info("Unable to create the message, please check your configuration.", LogType.ERROR);
 				return;
 			}
-			
-			DiscordMessage discordMessage = new DiscordMessage(channel.getIdLong(), message.getIdLong(),
+
+			DiscordMessage discordMessage = new DiscordMessage(finalChannel.getIdLong(), message.getIdLong(),
 					auctionItem.getUniqueId());
 
 			if (Config.removeMessage || Config.editMessage)
@@ -176,15 +189,14 @@ public class AuctionListener extends ZUtils implements Listener {
 		string = string.replace("%currency%", auctionItem.getEconomy().toCurrency());
 
 		switch (auctionItem.getType()) {
+		case DEFAULT:
+		case BID:
 		case INVENTORY:
-
-			break;
-
 		default:
 			ItemStack itemStack = auctionItem.getItemStack();
 			string = string.replace("%amount%", String.valueOf(itemStack.getAmount()));
 			string = string.replace("%material%", getItemName(itemStack));
-			string = string.replace("%enchants%", getEnchant(itemStack));
+			string = string.replace("%enchant%", getEnchant(itemStack));
 			break;
 		}
 

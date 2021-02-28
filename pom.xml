@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.maxlego08.zauctionhouse</groupId>
 	<artifactId>zDiscord</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.3</version>
 	<name>zAuctionHouse Discord</name>
 
 	<build>
@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>com.github.Maxlego08</groupId>
 			<artifactId>zAuctionHouseV3-API</artifactId>
-			<version>3.0.6</version>
+			<version>3.0.7</version>
 			<scope>provided</scope>
 		</dependency>
 
