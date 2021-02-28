@@ -27,7 +27,7 @@
 				<configuration>
 				    <transformers>
 					<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-					    <mainClass>YourMainClass</mainClass> <!-- You have to replace this with a path to your main class like my.path.Main -->
+					    <mainClass>fr.maxlego08.discord.ZDiscordPlugin</mainClass>
 					</transformer>
 				    </transformers>
 				    <createDependencyReducedPom>false</createDependencyReducedPom>
