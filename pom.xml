@@ -21,6 +21,26 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+				    <transformers>
+					<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+					    <mainClass>fr.maxlego08.discord.ZDiscordPlugin</mainClass>
+					</transformer>
+				    </transformers>
+				    <createDependencyReducedPom>false</createDependencyReducedPom>
+				</configuration>
+				<executions>
+				    <execution>
+					<phase>package</phase>
+					    <goals>
+						<goal>shade</goal>
+					    </goals>
+				    </execution>
+                		</executions>
+            		</plugin>
 		</plugins>
 	</build>
 
