@@ -4,10 +4,13 @@ import java.time.OffsetDateTime;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import fr.maxlego08.discord.DiscordMessage;
 import fr.maxlego08.discord.ZDiscordPlugin;
@@ -215,6 +218,23 @@ public class AuctionListener extends ZUtils implements Listener {
 				builder.append(betterEnchant(enchants.getKey(), enchants.getValue()));
 				builder.append(" ");
 			}
+		} else if (item.getType().equals(Material.ENCHANTED_BOOK)) {
+
+			ItemMeta itemMeta = item.getItemMeta();
+			if (itemMeta instanceof EnchantmentStorageMeta) {
+
+				EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) itemMeta;
+				if (enchantmentStorageMeta.hasStoredEnchants()) {
+
+					enchantmentStorageMeta.getStoredEnchants().forEach((enchant, level) -> {
+						builder.append(betterEnchant(enchant, level));
+						builder.append(" ");
+					});
+
+				}
+
+			}
+
 		} else {
 			builder.append("nothing");
 		}
