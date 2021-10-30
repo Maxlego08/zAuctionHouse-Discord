@@ -327,7 +327,6 @@ public abstract class ZUtils extends MessageUtils {
 	 */
 	protected void schedule(long delay, Runnable runnable) {
 		new Timer().schedule(new TimerTask() {
-
             @Override
             public void run() {
                 if (runnable != null)
@@ -501,7 +500,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String color(String message) {
-		return message.replace("&", "�");
+		return message.replace("&", "§");
 	}
 
 	/**
@@ -510,7 +509,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String colorReverse(String message) {
-		return message.replace("�", "&");
+		return message.replace("§", "&");
 	}
 
 	/**
@@ -566,7 +565,7 @@ public abstract class ZUtils extends MessageUtils {
 	}
 
 	/**
-	 * Permet de g�n�rer un string
+	 * Permet de générer un string
 	 * 
 	 * @param length
 	 * @return
@@ -756,7 +755,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String toList(Stream<String> list) {
-		return toList(list.collect(Collectors.toList()), "�e", "�6");
+		return toList(list.collect(Collectors.toList()), "§e", "§6");
 	}
 
 	/**
@@ -764,7 +763,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String toList(List<String> list) {
-		return toList(list, "�e", "�6�n");
+		return toList(list, "§e", "§6§n");
 	}
 
 	/**
@@ -796,7 +795,7 @@ public abstract class ZUtils extends MessageUtils {
 	 */
 	protected String removeColor(String message) {
 		for (ChatColor color : ChatColor.values())
-			message = message.replace("�" + color.getChar(), "").replace("&" + color.getChar(), "");
+			message = message.replace("§" + color.getChar(), "").replace("&" + color.getChar(), "");
 		return message;
 	}
 
