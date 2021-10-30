@@ -1,6 +1,7 @@
 package fr.maxlego08.discord.listener;
 
 import java.time.OffsetDateTime;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Optional;
 
@@ -214,31 +215,30 @@ public class AuctionListener extends ZUtils implements Listener {
 	private String getEnchant(ItemStack item) {
 		StringBuilder builder = new StringBuilder();
 		if (item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
-			for (Entry<Enchantment, Integer> enchants : item.getItemMeta().getEnchants().entrySet()) {
-				builder.append(betterEnchant(enchants.getKey(), enchants.getValue()));
-				builder.append(Config.enchantSeparator);
+			Iterator<Entry<Enchantment, Integer>> it = item.getItemMeta().getEnchants().entrySet().iterator();
+			while (it.hasNext()) {
+				Entry<Enchantment, Integer> enchant = it.next();
+				builder.append(betterEnchant(enchant.getKey(), enchant.getValue()));
+				if (it.hasNext())
+					builder.append(Config.enchantSeparator);
 			}
 		} else if (item.getType().equals(Material.ENCHANTED_BOOK)) {
-
 			ItemMeta itemMeta = item.getItemMeta();
 			if (itemMeta instanceof EnchantmentStorageMeta) {
-
 				EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) itemMeta;
 				if (enchantmentStorageMeta.hasStoredEnchants()) {
-
-					enchantmentStorageMeta.getStoredEnchants().forEach((enchant, level) -> {
-						builder.append(betterEnchant(enchant, level));
-						builder.append(Config.enchantSeparator);
-					});
-
+					Iterator<Entry<Enchantment, Integer>> it = enchantmentStorageMeta.getStoredEnchants().entrySet().iterator();
+					while (it.hasNext()) {
+						Entry<Enchantment, Integer> enchant = it.next();
+						builder.append(betterEnchant(enchant.getKey(), enchant.getValue()));
+						if (it.hasNext())
+							builder.append(Config.enchantSeparator);
+					}
 				}
-
 			}
-
 		} else {
 			builder.append("nothing");
 		}
-
 		return builder.toString();
 
 	}

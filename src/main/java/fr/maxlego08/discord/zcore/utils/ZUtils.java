@@ -486,11 +486,12 @@ public abstract class ZUtils extends MessageUtils {
 	}
 
 	protected String getItemName(ItemStack item, boolean stripExtrasCode) {
-        if (item.hasItemMeta() && item.getItemMeta().hasDisplayName())
-            return item.getItemMeta().getDisplayName();
+        if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+			if (stripExtrasCode)
+				return STRIP_EXTRAS_PATTERN.matcher(item.getItemMeta().getDisplayName()).replaceAll("");
+        	return item.getItemMeta().getDisplayName();
+		}
         String name = item.serialize().get("type").toString().replace("_", " ").toLowerCase();
-        if (stripExtrasCode)
-            name = STRIP_EXTRAS_PATTERN.matcher(name).replaceAll("");
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
