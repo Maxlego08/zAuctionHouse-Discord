@@ -198,7 +198,7 @@ public class AuctionListener extends ZUtils implements Listener {
 		default:
 			ItemStack itemStack = auctionItem.getItemStack();
 			string = string.replace("%amount%", String.valueOf(itemStack.getAmount()));
-			string = string.replace("%material%", getItemName(itemStack));
+			string = string.replace("%material%", getItemName(itemStack, Config.removeExtrasCode));
 			string = string.replace("%enchant%", getEnchant(itemStack));
 			break;
 		}

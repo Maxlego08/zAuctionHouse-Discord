@@ -26,6 +26,7 @@ public class Config implements Saveable {
 	public static boolean useTimestamp = true;
 	public static boolean removeMessage = true;
 	public static boolean editMessage = false;
+	public static boolean removeExtrasCode = true;
 	public static String game = "zAuctionHouse VDEV-2.0.1.0";
 	public static Color embedColor = new Color(255, 0, 0);
 	public static Color embedColorEdit = new Color(0, 255, 0);
