@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -214,7 +215,9 @@ public class AuctionListener extends ZUtils implements Listener {
 	 */
 	private String getEnchant(ItemStack item) {
 		StringBuilder builder = new StringBuilder();
-		if (item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
+		if (Config.hideItemEnchantWithHideFlag && item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
+			builder.append("nothing");
+		else if (item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
 			Iterator<Entry<Enchantment, Integer>> it = item.getItemMeta().getEnchants().entrySet().iterator();
 			while (it.hasNext()) {
 				Entry<Enchantment, Integer> enchant = it.next();
@@ -236,11 +239,9 @@ public class AuctionListener extends ZUtils implements Listener {
 					}
 				}
 			}
-		} else {
+		} else
 			builder.append("nothing");
-		}
 		return builder.toString();
-
 	}
 
 	@SuppressWarnings("deprecation")
