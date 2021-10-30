@@ -216,7 +216,7 @@ public class AuctionListener extends ZUtils implements Listener {
 		if (item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
 			for (Entry<Enchantment, Integer> enchants : item.getItemMeta().getEnchants().entrySet()) {
 				builder.append(betterEnchant(enchants.getKey(), enchants.getValue()));
-				builder.append(" ");
+				builder.append(Config.enchantSeparator);
 			}
 		} else if (item.getType().equals(Material.ENCHANTED_BOOK)) {
 
@@ -228,7 +228,7 @@ public class AuctionListener extends ZUtils implements Listener {
 
 					enchantmentStorageMeta.getStoredEnchants().forEach((enchant, level) -> {
 						builder.append(betterEnchant(enchant, level));
-						builder.append(" ");
+						builder.append(Config.enchantSeparator);
 					});
 
 				}

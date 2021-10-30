@@ -35,6 +35,7 @@ public class Config implements Saveable {
 	public static String footer = "zAuctionHouse";
 	public static List<EmbedField> embeds = new ArrayList<EmbedField>();
 	public static Map<String, String> enchantments = new HashMap<>();
+	public static String enchantSeparator = " ";
 	
 	static {
 		gatewayIntents.add(GatewayIntent.GUILD_MEMBERS);
