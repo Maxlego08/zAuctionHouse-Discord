@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,8 +57,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 @SuppressWarnings("deprecation")
 public abstract class ZUtils extends MessageUtils {
 
-	private static transient List<String> teleportPlayers = new ArrayList<String>();
-	protected transient ZDiscordPlugin plugin = (ZDiscordPlugin) ZPlugin.z();
+    private static transient List<String> teleportPlayers = new ArrayList<String>();
+    protected transient ZDiscordPlugin plugin = (ZDiscordPlugin) ZPlugin.z();
+    public static final Pattern STRIP_EXTRAS_PATTERN = Pattern.compile("(?i)Â§[0-9A-FK-ORX]");
 
 	/**
 	 * @param item
@@ -325,14 +327,13 @@ public abstract class ZUtils extends MessageUtils {
 	 */
 	protected void schedule(long delay, Runnable runnable) {
 		new Timer().schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				if (runnable != null)
-					runnable.run();
-			}
-		}, delay);
-	}
+            @Override
+            public void run() {
+                if (runnable != null)
+                    runnable.run();
+            }
+        }, delay);
+    }
 
 	/**
 	 * 
@@ -480,11 +481,18 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String getItemName(ItemStack item) {
-		if (item.hasItemMeta() && item.getItemMeta().hasDisplayName())
-			return item.getItemMeta().getDisplayName();
-		String name = item.serialize().get("type").toString().replace("_", " ").toLowerCase();
-		return name.substring(0, 1).toUpperCase() + name.substring(1);
+		return getItemName(item, false);
 	}
+
+	protected String getItemName(ItemStack item, boolean stripExtrasCode) {
+        if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+			if (stripExtrasCode)
+				return STRIP_EXTRAS_PATTERN.matcher(item.getItemMeta().getDisplayName()).replaceAll("");
+        	return item.getItemMeta().getDisplayName();
+		}
+        String name = item.serialize().get("type").toString().replace("_", " ").toLowerCase();
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
 
 	/**
 	 * 
@@ -492,7 +500,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String color(String message) {
-		return message.replace("&", "§");
+		return message.replace("&", "Â§");
 	}
 
 	/**
@@ -501,7 +509,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String colorReverse(String message) {
-		return message.replace("§", "&");
+		return message.replace("Â§", "&");
 	}
 
 	/**
@@ -557,7 +565,7 @@ public abstract class ZUtils extends MessageUtils {
 	}
 
 	/**
-	 * Permet de générer un string
+	 * Permet de gÃ©nÃ©rer un string
 	 * 
 	 * @param length
 	 * @return
@@ -666,12 +674,12 @@ public abstract class ZUtils extends MessageUtils {
 		return count;
 	}
 
-	protected Enchantment enchantFromString(String str) {
-		for (Enchantment enchantment : Enchantment.values())
-			if (enchantment.getName().equalsIgnoreCase(str))
-				return enchantment;
-		return null;
-	}
+    protected Enchantment enchantFromString(String str) {
+        for (Enchantment enchantment : Enchantment.values())
+            if (enchantment.getName().equalsIgnoreCase(str))
+                return enchantment;
+        return null;
+    }
 
 	/**
 	 * 
@@ -680,34 +688,34 @@ public abstract class ZUtils extends MessageUtils {
 	 */
 	protected BlockFace getClosestFace(float direction) {
 
-		direction = direction % 360;
+        direction = direction % 360;
 
-		if (direction < 0)
-			direction += 360;
+        if (direction < 0)
+            direction += 360;
 
-		direction = Math.round(direction / 45);
+        direction = Math.round(direction / 45);
 
-		switch ((int) direction) {
-		case 0:
-			return BlockFace.WEST;
-		case 1:
-			return BlockFace.NORTH_WEST;
-		case 2:
-			return BlockFace.NORTH;
-		case 3:
-			return BlockFace.NORTH_EAST;
-		case 4:
-			return BlockFace.EAST;
-		case 5:
-			return BlockFace.SOUTH_EAST;
-		case 6:
-			return BlockFace.SOUTH;
-		case 7:
-			return BlockFace.SOUTH_WEST;
-		default:
-			return BlockFace.WEST;
-		}
-	}
+        switch ((int) direction) {
+            case 0:
+                return BlockFace.WEST;
+            case 1:
+                return BlockFace.NORTH_WEST;
+            case 2:
+                return BlockFace.NORTH;
+            case 3:
+                return BlockFace.NORTH_EAST;
+            case 4:
+                return BlockFace.EAST;
+            case 5:
+                return BlockFace.SOUTH_EAST;
+            case 6:
+                return BlockFace.SOUTH;
+            case 7:
+                return BlockFace.SOUTH_WEST;
+            default:
+                return BlockFace.WEST;
+        }
+    }
 
 	/**
 	 * 
@@ -747,7 +755,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String toList(Stream<String> list) {
-		return toList(list.collect(Collectors.toList()), "§e", "§6");
+		return toList(list.collect(Collectors.toList()), "Â§e", "Â§6");
 	}
 
 	/**
@@ -755,7 +763,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected String toList(List<String> list) {
-		return toList(list, "§e", "§6§n");
+		return toList(list, "Â§e", "Â§6Â§n");
 	}
 
 	/**
@@ -787,7 +795,7 @@ public abstract class ZUtils extends MessageUtils {
 	 */
 	protected String removeColor(String message) {
 		for (ChatColor color : ChatColor.values())
-			message = message.replace("§" + color.getChar(), "").replace("&" + color.getChar(), "");
+			message = message.replace("Â§" + color.getChar(), "").replace("&" + color.getChar(), "");
 		return message;
 	}
 
