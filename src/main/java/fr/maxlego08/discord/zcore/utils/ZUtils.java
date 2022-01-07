@@ -48,11 +48,6 @@ import org.bukkit.potion.PotionEffectType;
 import fr.maxlego08.discord.ZDiscordPlugin;
 import fr.maxlego08.discord.zcore.ZPlugin;
 import fr.maxlego08.discord.zcore.enums.Message;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.HoverEvent.Action;
-import net.md_5.bungee.api.chat.TextComponent;
 
 @SuppressWarnings("deprecation")
 public abstract class ZUtils extends MessageUtils {
@@ -573,54 +568,6 @@ public abstract class ZUtils extends MessageUtils {
 	protected String generateRandomString(int length) {
 		RandomString randomString = new RandomString(length);
 		return randomString.nextString();
-	}
-
-	/**
-	 * 
-	 * @param message
-	 * @return
-	 */
-	protected TextComponent buildTextComponent(String message) {
-		return new TextComponent(message);
-	}
-
-	/**
-	 * 
-	 * @param message
-	 * @return
-	 */
-	protected TextComponent setHoverMessage(TextComponent component, String... messages) {
-		BaseComponent[] list = new BaseComponent[messages.length];
-		for (int a = 0; a != messages.length; a++)
-			list[a] = new TextComponent(messages[a] + (messages.length - 1 == a ? "" : "\n"));
-		component.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, list));
-		return component;
-	}
-
-	/**
-	 * 
-	 * @param message
-	 * @return
-	 */
-	protected TextComponent setHoverMessage(TextComponent component, List<String> messages) {
-		BaseComponent[] list = new BaseComponent[messages.size()];
-		for (int a = 0; a != messages.size(); a++)
-			list[a] = new TextComponent(messages.get(a) + (messages.size() - 1 == a ? "" : "\n"));
-		component.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, list));
-		return component;
-	}
-
-	/**
-	 * 
-	 * @param component
-	 * @param action
-	 * @param command
-	 * @return
-	 */
-	protected TextComponent setClickAction(TextComponent component, net.md_5.bungee.api.chat.ClickEvent.Action action,
-			String command) {
-		component.setClickEvent(new ClickEvent(action, command));
-		return component;
 	}
 
 	/**
