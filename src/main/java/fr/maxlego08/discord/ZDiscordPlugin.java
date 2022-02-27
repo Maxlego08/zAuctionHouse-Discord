@@ -81,8 +81,9 @@ public class ZDiscordPlugin extends ZPlugin {
 
 		this.preDisable();
 
-		if (jda != null)
+		if (jda != null) {
 			jda.shutdownNow();
+		}
 
 		Storage.getInstance().save(this.getPersist());
 
