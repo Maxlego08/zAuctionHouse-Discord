@@ -11,3 +11,13 @@ Discord bot for zAuctionHouse
 5. Start your server a first time to generate the configuration file and shut down your server.
 6. Configure the ``config.json`` file by adding the ``token`` of your bot, the ``channel ID`` to send the messages and if needed the ``gatewayIntents``.
 7. You can now restart your server and use the plugin.
+
+## Variables
+
+* ``%seller%`` - Get seller name
+* ``%buyer%`` - Get buyer name, only for edit message
+* ``%price%`` - Get price
+* ``%currency%`` - Get currency
+* ``%amount%`` - Get amount of item's
+* ``%material%`` - Get material name (or replace for your language with <a href="https://groupez.dev/resources/ztranslator.230">zTranslator</a>)
+* ``%enchant%`` - Get enchant list
