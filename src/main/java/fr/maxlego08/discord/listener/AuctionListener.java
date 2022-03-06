@@ -125,8 +125,9 @@ public class AuctionListener extends ZUtils implements Listener {
 			return auctionItem.getUniqueId().equals(message.getUniqueId());
 		}).findFirst();
 
-		if (!optional.isPresent())
+		if (!optional.isPresent()) {
 			return;
+		}
 
 		DiscordMessage discordMessage = optional.get();
 		Storage.discordMessages.remove(discordMessage);
@@ -138,12 +139,13 @@ public class AuctionListener extends ZUtils implements Listener {
 
 			Message message = channel.retrieveMessageById(discordMessage.getMessageID()).complete();
 
-			if (message == null)
+			if (message == null) {
 				return;
+			}
 
-			if (Config.removeMessage)
+			if (Config.removeMessage) {
 				message.delete().queue();
-			else if (Config.editMessage) {
+			} else if (Config.editMessage) {
 				EmbedBuilder builder = getBuilder(auctionItem, true);
 				message.editMessage(builder.build()).queue();
 			}
@@ -152,28 +154,38 @@ public class AuctionListener extends ZUtils implements Listener {
 	}
 
 	/**
+	 * Replace string
 	 * 
 	 * @param event
 	 * @param bool
-	 * @return
+	 * @return {@link EmbedBuilder}
 	 */
-	private EmbedBuilder getBuilder(AuctionItem event, boolean bool) {
+	private EmbedBuilder getBuilder(AuctionItem auctionItem, boolean isEdited) {
+		
 		EmbedBuilder builder = new EmbedBuilder();
-		builder.setColor(!bool ? Config.embedColor.color() : Config.embedColorEdit.color());
+		builder.setColor(!isEdited ? Config.embedColor.color() : Config.embedColorEdit.color());
 
-		if (!Config.header.equalsIgnoreCase("none") || (!Config.headerEdit.equalsIgnoreCase("none") && bool))
-			builder.setTitle(!bool ? Config.header : Config.headerEdit);
-		if (Config.useTimestamp)
+		if (!Config.header.equalsIgnoreCase("none") || (!Config.headerEdit.equalsIgnoreCase("none") && isEdited)) {
+			builder.setTitle(this.replaceString(!isEdited ? Config.header : Config.headerEdit, auctionItem));
+		}
+		
+		if (Config.useTimestamp) {
 			builder.setTimestamp(OffsetDateTime.now());
+		}
+		
 		Config.embeds.forEach(item -> {
 			if (!(item.getMessage().contains("%enchant%") && !item.displayWhenEnchantIsNull()
-					&& getEnchant(event.getItemStack()).equals("nothing"))) {
-				builder.addField(replaceString(item.getTile(), event), replaceString(item.getMessage(), event),
+					&& getEnchant(auctionItem.getItemStack()).equals("nothing"))) {
+				
+				builder.addField(replaceString(item.getTile(), auctionItem), replaceString(item.getMessage(), auctionItem),
 						item.isInLine());
+				
 			}
 		});
-		if (!Config.footer.equalsIgnoreCase("none"))
-			builder.setFooter(Config.footer, null);
+		if (!Config.footer.equalsIgnoreCase("none")) {
+			builder.setFooter(this.replaceString(Config.footer, auctionItem), null);
+		}
+		
 		return builder;
 	}
 
@@ -187,8 +199,9 @@ public class AuctionListener extends ZUtils implements Listener {
 
 		string = string.replace("%seller%", auctionItem.getSeller().getName());
 
-		if (auctionItem.getBuyerUniqueId() != null)
+		if (auctionItem.getBuyerUniqueId() != null) {
 			string = string.replace("%buyer%", auctionItem.getBuyer().getName());
+		}
 
 		string = string.replace("%price%", format(auctionItem.getPrice()));
 		string = string.replace("%currency%", auctionItem.getEconomy().toCurrency());
