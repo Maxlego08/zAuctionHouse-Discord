@@ -11,6 +11,7 @@ import fr.maxlego08.discord.embed.EmbedField;
 import fr.maxlego08.discord.zcore.utils.Color;
 import fr.maxlego08.discord.zcore.utils.storage.Persist;
 import fr.maxlego08.discord.zcore.utils.storage.Saveable;
+import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 @SuppressWarnings("deprecation")
@@ -29,6 +30,7 @@ public class Config implements Saveable {
 	public static boolean removeExtrasCode = true;
 	public static boolean hideItemEnchantWithHideFlag = true;
 	public static String game = "zAuctionHouse VDEV-3";
+	public static ActivityType gameActivityType = ActivityType.DEFAULT;
 	public static Color embedColor = new Color(255, 0, 0);
 	public static Color embedColorEdit = new Color(0, 255, 0);
 	public static String header = "none";
@@ -37,6 +39,7 @@ public class Config implements Saveable {
 	public static List<EmbedField> embeds = new ArrayList<EmbedField>();
 	public static Map<String, String> enchantments = new HashMap<>();
 	public static String enchantSeparator = " ";
+	
 	
 	static {
 		gatewayIntents.add(GatewayIntent.GUILD_MEMBERS);

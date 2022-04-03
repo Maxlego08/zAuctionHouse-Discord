@@ -53,7 +53,7 @@ public class ZDiscordPlugin extends ZPlugin {
 				JDABuilder builder = JDABuilder.create(token, intents);
 				builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 				jda = builder.build();
-				jda.getPresence().setActivity(Activity.playing(Config.game));
+				jda.getPresence().setActivity(Activity.of(Config.gameActivityType , Config.game));
 				Logger.info("Loading of the discord bot successfully completed.");
 				isReady = true;
 
