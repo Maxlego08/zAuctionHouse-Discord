@@ -4,7 +4,7 @@
 	<groupId>fr.maxlego08.zauctionhouse</groupId>
 	<artifactId>zDiscord</artifactId>
 	<version>1.0.9</version>
-	<name>zAuctionHouse Discord</name>
+	<name>StarryZAH-Discord</name>
 
 	<build>
 		<plugins>
@@ -65,7 +65,7 @@
 
 		<repository>
 			<id>jitpack.io</id>
-			<url>https://jitpack.io/</url>
+			<url>https://jitpack.io</url>
 		</repository>
 
 	</repositories>
@@ -75,15 +75,14 @@
 		<dependency>
 			<groupId>com.github.Maxlego08</groupId>
 			<artifactId>zAuctionHouseV3-API</artifactId>
-			<version>3.0.7.6</version>
-			<scope>provided</scope>
+			<version>3.1.6</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/net.dv8tion/JDA -->
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.1.1_143</version>
+			<version>5.0.0-beta.5</version>
 			<scope>compile</scope>
 		</dependency>
 
