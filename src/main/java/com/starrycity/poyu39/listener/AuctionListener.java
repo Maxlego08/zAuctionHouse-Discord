@@ -3,9 +3,12 @@ package com.starrycity.poyu39.listener;
 import java.time.OffsetDateTime;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.starrycity.poyu39.zcore.utils.ZUtils;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -30,15 +33,11 @@ import fr.maxlego08.zauctionhouse.api.utils.Logger.LogType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 
 public class AuctionListener extends ZUtils implements Listener {
 
 	private final ZDiscordPlugin plugin;
 
-	/**
-	 * @param plugin
-	 */
 	public AuctionListener(ZDiscordPlugin plugin) {
 		super();
 		this.plugin = plugin;
@@ -52,37 +51,31 @@ public class AuctionListener extends ZUtils implements Listener {
 		JDA jda = plugin.getJda();
 
 		if (jda == null) {
-			Logger.info("Impossible to find JDA, did you give permissions to your bot?", LogType.ERROR);
+			Logger.info("無法找到 Bot ，請確認 Bot 權限。", LogType.ERROR);
 			return;
 		}
 		TextChannel channel = null;
 		try {
-
 			channel = jda.getTextChannelById(Config.channelID);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Logger.info("Impossible to find channel, did you give permissions to your bot?", LogType.ERROR);
+			Logger.info("無法尋找頻道，請確認 Bot 權限。", LogType.ERROR);
 		}
 
 		if (channel == null) {
-			Logger.info("Unable to find the channel discord, please check your configuration.", LogType.ERROR);
+			Logger.info("找不到頻道，請確認設定檔設定正確頻道ID。", LogType.ERROR);
 			return;
 		}
 
-		TextChannel finalChannel = channel;
+		MessageChannel finalChannel = channel;
 		runAsync(() -> {
 
 			EmbedBuilder builder = getBuilder(auctionItem, false);
 
-			if (builder == null) {
-				Logger.info("Unable to find the embed builder, please check your configuration.", LogType.ERROR);
-				return;
-			}
-
-			Message message = finalChannel.sendMessage(builder.build()).complete();
+			Message message = finalChannel.sendMessageEmbeds(builder.build()).complete();
 
 			if (message == null) {
-				Logger.info("Unable to create the message, please check your configuration.", LogType.ERROR);
+				Logger.info("無法創建訊息，請檢查設定檔。", LogType.ERROR);
 				return;
 			}
 
@@ -121,9 +114,13 @@ public class AuctionListener extends ZUtils implements Listener {
 
 	private void remove(AuctionItem auctionItem) {
 
-		Optional<DiscordMessage> optional = Storage.discordMessages.stream().filter(message -> {
-			return auctionItem.getUniqueId().equals(message.getUniqueId());
-		}).findFirst();
+		Optional<DiscordMessage> optional = Optional.empty();
+		for (DiscordMessage discordMessage : Storage.discordMessages) {
+			if (auctionItem.getUniqueId().equals(discordMessage.getUniqueId())) {
+				optional = Optional.of(discordMessage);
+				break;
+			}
+		}
 
 		if (!optional.isPresent()) {
 			return;
@@ -136,96 +133,76 @@ public class AuctionListener extends ZUtils implements Listener {
 		TextChannel channel = jda.getTextChannelById(discordMessage.getChannelID());
 
 		runAsync(() -> {
-
-			Message message = channel.retrieveMessageById(discordMessage.getMessageID()).complete();
-
-			if (message == null) {
+			Message message;
+			try {
+				message = Objects.requireNonNull(channel).retrieveMessageById(discordMessage.getMessageID()).complete();
+			} catch (NullPointerException e) {
 				return;
 			}
-
 			if (Config.removeMessage) {
 				message.delete().queue();
 			} else if (Config.editMessage) {
 				EmbedBuilder builder = getBuilder(auctionItem, true);
-				message.editMessage(builder.build()).queue();
+				message.editMessageEmbeds(builder.build()).queue();
 			}
 
 		});
 	}
 
-	/**
-	 * Replace string
-	 * 
-	 * @param event
-	 * @param bool
-	 * @return {@link EmbedBuilder}
-	 */
+
 	private EmbedBuilder getBuilder(AuctionItem auctionItem, boolean isEdited) {
-		
+
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.setColor(!isEdited ? Config.embedColor.color() : Config.embedColorEdit.color());
 
 		if (!Config.header.equalsIgnoreCase("none") || (!Config.headerEdit.equalsIgnoreCase("none") && isEdited)) {
 			builder.setTitle(this.replaceString(!isEdited ? Config.header : Config.headerEdit, auctionItem));
 		}
-		
+
 		if (Config.useTimestamp) {
 			builder.setTimestamp(OffsetDateTime.now());
 		}
-		
+
 		Config.embeds.forEach(item -> {
 			if (!(item.getMessage().contains("%enchant%") && !item.displayWhenEnchantIsNull()
 					&& getEnchant(auctionItem.getItemStack()).equals("nothing"))) {
-				
+
 				builder.addField(replaceString(item.getTile(), auctionItem), replaceString(item.getMessage(), auctionItem),
 						item.isInLine());
-				
+
 			}
 		});
 		if (!Config.footer.equalsIgnoreCase("none")) {
 			builder.setFooter(this.replaceString(Config.footer, auctionItem), null);
 		}
-		
 		return builder;
 	}
 
-	/**
-	 * 
-	 * @param string
-	 * @param auctionItem
-	 * @return
-	 */
 	private String replaceString(String string, AuctionItem auctionItem) {
 
-		string = string.replace("%seller%", auctionItem.getSeller().getName());
+		string = string.replace("%seller%", Objects.requireNonNull(auctionItem.getSeller().getName()));
 
 		if (auctionItem.getBuyerUniqueId() != null) {
-			string = string.replace("%buyer%", auctionItem.getBuyer().getName());
+			string = string.replace("%buyer%", Objects.requireNonNull(auctionItem.getBuyer().getName()));
 		}
 
 		string = string.replace("%price%", format(auctionItem.getPrice()));
 		string = string.replace("%currency%", auctionItem.getEconomy().toCurrency());
 
 		switch (auctionItem.getType()) {
-		case DEFAULT:
-		case BID:
-		case INVENTORY:
-		default:
-			ItemStack itemStack = auctionItem.getItemStack();
-			string = string.replace("%amount%", String.valueOf(itemStack.getAmount()));
-			string = string.replace("%material%", getItemName(itemStack, Config.removeExtrasCode));
-			string = string.replace("%enchant%", getEnchant(itemStack));
-			break;
+			case DEFAULT:
+			case BID:
+			case INVENTORY:
+			default:
+				ItemStack itemStack = auctionItem.getItemStack();
+				string = string.replace("%amount%", String.valueOf(itemStack.getAmount()));
+				string = string.replace("%material%", getItemName(itemStack, Config.removeExtrasCode));
+				string = string.replace("%enchant%", getEnchant(itemStack));
+				break;
 		}
-
 		return string;
 	}
 
-	/**
-	 * 
-	 * @param item
-	 * @return
-	 */
 	private String getEnchant(ItemStack item) {
 		StringBuilder builder = new StringBuilder();
 		if (Config.hideItemEnchantWithHideFlag && item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
