@@ -1,7 +1,7 @@
 name: StarryZAH-Discord
 author: poyu39
 main: com.starrycity.zDiscord.ZDiscordPlugin
-version: 1.0.9
+version: 1.2.0
 depend: 
  - zAuctionHouseV3
 commands:
