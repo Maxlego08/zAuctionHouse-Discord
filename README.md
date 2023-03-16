@@ -1,23 +1,33 @@
-# zAuctionHouse-Discord
-Discord bot for zAuctionHouse
+# StarryZAH-Discord
+星空之都貿易平台 Discord bot zAuctionHouse
 
-# How to configure the plugin
+由 zAuctionHouse-Discord 作者分支而來，且將系統訊息繁體中文化。
 
-1. You must create a new <a href="https://discord.com/developers/applications">application</a> on the develop discord panel.
-2. Check that the bot has the permissions below:
-![Discord screen](https://img.groupez.xyz/zauctionhouse/v3/discord/discord.png)
-3. Download the latest version of the plugin.
-4. Add the plugin to the ``plugins`` folder on your server.
-5. Start your server a first time to generate the configuration file and shut down your server.
-6. Configure the ``config.json`` file by adding the ``token`` of your bot, the ``channel ID`` to send the messages and if needed the ``gatewayIntents``.
-7. You can now restart your server and use the plugin.
+作者：Poyu39 `Discord:poyu#9239`
 
-## Variables
+### 目前依賴項版本
+- zAuctionHouseV3-API `3.1.6`
+- paper-api `1.19.2-R0.1-SNAPSHOT`
+- JDA `5.0.0-beta.5`
+- zTranslator `1.0.0.2`
 
-* ``%seller%`` - Get seller name
-* ``%buyer%`` - Get buyer name, only for edit message
-* ``%price%`` - Get price
-* ``%currency%`` - Get currency
-* ``%amount%`` - Get amount of item's
-* ``%material%`` - Get material name (or replace for your language with <a href="https://groupez.dev/resources/ztranslator.230">zTranslator</a>)
-* ``%enchant%`` - Get enchant list
+# 如何設定插件
+
+1. 您必須在開發者面板上創建一個新的<a href="https://discord.com/developers/applications"> APP</a>。
+2. 檢查 Bot 是否具有以下權限：
+   ![Discord screen](https://img.groupez.xyz/zauctionhouse/v3/discord/discord.png)
+3. 下載插件的最新版本。
+4. 將插件添加到伺服器上的``plugins``文件夾中。
+5. 首次啟動伺服器將用作生成配置文件，然後關閉伺服器。
+6. 通過添加 Bot 的``token``、發送消息的``channel ID``以及如果需要的話``gatewayIntents``來設定``config.json``文件。
+7. 現在您可以重新啟動伺服器並使用插件。
+
+## 訊息變數
+
+- ``%seller%`` - 獲取賣家名稱
+- ``%buyer%`` - 獲取買家名稱，僅用於編輯消息
+- ``%price%`` - 獲取價格
+- ``%currency%`` - 獲取貨幣
+- ``%amount%`` - 獲取物品數量
+- ``%material%`` - 獲取材料名稱（或使用<a href="https://groupez.dev/resources/ztranslator.230">zTranslator</a>替換為您的語言）
+- ``%enchant%`` - 獲取附魔列表
