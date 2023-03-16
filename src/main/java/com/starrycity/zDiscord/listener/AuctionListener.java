@@ -49,7 +49,7 @@ public class AuctionListener extends ZUtils implements Listener {
 			Logger.info("無法找到 Bot ，請確認 Bot 權限。", LogType.ERROR);
 			return;
 		}
-		TextChannel channel = null;
+		MessageChannel channel = null;
 		try {
 			channel = jda.getTextChannelById(Config.channelID);
 		} catch (Exception e) {
