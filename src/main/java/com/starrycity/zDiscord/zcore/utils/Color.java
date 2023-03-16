@@ -1,4 +1,4 @@
-package com.starrycity.poyu39.zcore.utils;
+package com.starrycity.zDiscord.zcore.utils;
 public class Color {
 
 	private final int r;

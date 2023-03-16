@@ -1,6 +1,6 @@
 name: StarryZAH-Discord
 author: poyu39
-main: com.starrycity.poyu39.ZDiscordPlugin
+main: com.starrycity.zDiscord.ZDiscordPlugin
 version: 1.0.9
 depend: 
  - zAuctionHouseV3

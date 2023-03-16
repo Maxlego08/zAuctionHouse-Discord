@@ -1,11 +1,11 @@
-package com.starrycity.poyu39.storage;
+package com.starrycity.zDiscord.storage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.starrycity.poyu39.zcore.utils.storage.Persist;
-import com.starrycity.poyu39.zcore.utils.storage.Saveable;
-import com.starrycity.poyu39.DiscordMessage;
+import com.starrycity.zDiscord.zcore.utils.storage.Persist;
+import com.starrycity.zDiscord.zcore.utils.storage.Saveable;
+import com.starrycity.zDiscord.DiscordMessage;
 
 public class Storage implements Saveable {
 

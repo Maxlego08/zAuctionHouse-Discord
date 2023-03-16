@@ -1,4 +1,4 @@
-package com.starrycity.poyu39.zcore.logger;
+package com.starrycity.zDiscord.zcore.logger;
 
 import org.bukkit.Bukkit;
 

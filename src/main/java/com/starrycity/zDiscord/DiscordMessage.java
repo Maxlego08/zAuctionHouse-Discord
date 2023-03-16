@@ -1,4 +1,4 @@
-package com.starrycity.poyu39;
+package com.starrycity.zDiscord;
 
 import java.util.UUID;
 

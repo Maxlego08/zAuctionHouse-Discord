@@ -2,8 +2,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.starrycity</groupId>
-	<artifactId>poyu39</artifactId>
-	<version>1.0.0</version>
+	<artifactId>zDiscord</artifactId>
+	<version>1.2.0</version>
 	<name>StarryZAH-Discord</name>
 
 	<build>
@@ -23,12 +23,12 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.2.1</version>
+				<version>3.4.1</version>
 				<configuration>
 					<transformers>
 						<transformer
 							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-							<mainClass>com.starrycity.poyu39.ZDiscordPlugin</mainClass>
+							<mainClass>com.starrycity.zDiscord.ZDiscordPlugin</mainClass>
 						</transformer>
 					</transformers>
 					<createDependencyReducedPom>false</createDependencyReducedPom>

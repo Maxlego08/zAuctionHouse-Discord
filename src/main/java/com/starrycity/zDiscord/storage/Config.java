@@ -1,16 +1,16 @@
-package com.starrycity.poyu39.storage;
+package com.starrycity.zDiscord.storage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.starrycity.poyu39.zcore.utils.Color;
-import com.starrycity.poyu39.zcore.utils.storage.Persist;
-import com.starrycity.poyu39.zcore.utils.storage.Saveable;
+import com.starrycity.zDiscord.zcore.utils.Color;
+import com.starrycity.zDiscord.zcore.utils.storage.Persist;
+import com.starrycity.zDiscord.zcore.utils.storage.Saveable;
 import org.bukkit.enchantments.Enchantment;
 
-import com.starrycity.poyu39.embed.EmbedField;
+import com.starrycity.zDiscord.embed.EmbedField;
 import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 

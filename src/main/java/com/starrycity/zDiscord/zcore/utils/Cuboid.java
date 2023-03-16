@@ -1,4 +1,4 @@
-package com.starrycity.poyu39.zcore.utils;
+package com.starrycity.zDiscord.zcore.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

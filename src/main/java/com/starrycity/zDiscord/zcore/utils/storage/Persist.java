@@ -1,12 +1,12 @@
-package com.starrycity.poyu39.zcore.utils.storage;
+package com.starrycity.zDiscord.zcore.utils.storage;
 
 import java.io.File;
 import java.lang.reflect.Type;
 
-import com.starrycity.poyu39.zcore.logger.Logger;
-import com.starrycity.poyu39.zcore.utils.ZUtils;
-import com.starrycity.poyu39.zcore.ZPlugin;
-import com.starrycity.poyu39.zcore.enums.Folder;
+import com.starrycity.zDiscord.zcore.logger.Logger;
+import com.starrycity.zDiscord.zcore.utils.ZUtils;
+import com.starrycity.zDiscord.zcore.ZPlugin;
+import com.starrycity.zDiscord.zcore.enums.Folder;
 
 public class Persist extends ZUtils {
 

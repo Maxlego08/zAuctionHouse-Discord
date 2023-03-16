@@ -1,8 +1,8 @@
-package com.starrycity.poyu39.zcore.utils;
+package com.starrycity.zDiscord.zcore.utils;
 
 import org.bukkit.command.CommandSender;
 
-import com.starrycity.poyu39.zcore.enums.Message;
+import com.starrycity.zDiscord.zcore.enums.Message;
 
 public abstract class MessageUtils extends LocationUtils{
 

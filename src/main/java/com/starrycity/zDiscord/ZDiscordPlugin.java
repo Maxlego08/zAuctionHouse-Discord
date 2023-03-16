@@ -1,11 +1,11 @@
-package com.starrycity.poyu39;
+package com.starrycity.zDiscord;
 
 import java.util.List;
 
-import com.starrycity.poyu39.listener.AuctionListener;
-import com.starrycity.poyu39.storage.Config;
-import com.starrycity.poyu39.storage.Storage;
-import com.starrycity.poyu39.zcore.ZPlugin;
+import com.starrycity.zDiscord.listener.AuctionListener;
+import com.starrycity.zDiscord.storage.Config;
+import com.starrycity.zDiscord.storage.Storage;
+import com.starrycity.zDiscord.zcore.ZPlugin;
 import fr.maxlego08.zauctionhouse.api.utils.Logger;
 import fr.maxlego08.zauctionhouse.api.utils.Logger.LogType;
 import net.dv8tion.jda.api.JDA;

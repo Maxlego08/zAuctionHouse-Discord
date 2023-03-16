@@ -1,12 +1,12 @@
-package com.starrycity.poyu39.zcore;
+package com.starrycity.zDiscord.zcore;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.starrycity.poyu39.zcore.logger.Logger;
-import com.starrycity.poyu39.zcore.utils.storage.Persist;
-import com.starrycity.poyu39.zcore.utils.storage.Saveable;
+import com.starrycity.zDiscord.zcore.logger.Logger;
+import com.starrycity.zDiscord.zcore.utils.storage.Persist;
+import com.starrycity.zDiscord.zcore.utils.storage.Saveable;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -28,20 +28,17 @@ public abstract class ZPlugin extends JavaPlugin {
 		plugin = this;
 	}
 
-	protected boolean preEnable() {
+	protected void preEnable() {
 
 		enableTime = System.currentTimeMillis();
 
 		log.log("=== ENABLE START ===");
 		log.log("Plugin Version V<&>c" + getDescription().getVersion(), Logger.LogType.INFO);
-
 		getDataFolder().mkdirs();
 
 		gson = getGsonBuilder().create();
 		persist = new Persist(this);
 
-
-		return true;
 
 	}
 
@@ -65,50 +62,27 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	}
 
-	/**
-	 * Build gson
-	 * 
-	 * @return
-	 */
 	public GsonBuilder getGsonBuilder() {
 		return new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().serializeNulls()
 				.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE);
 	}
 
-	/**
-	 * Add a listener
-	 * 
-	 * @param listener
-	 */
 	public void addListener(Listener listener) {
 		if (listener instanceof Saveable)
 			addSave((Saveable) listener);
 		Bukkit.getPluginManager().registerEvents(listener, this);
 	}
 
-	/**
-	 * Add a Saveable
-	 * 
-	 * @param saver
-	 */
 	public void addSave(Saveable saver) {
 		this.savers.add(saver);
 	}
 
-	/**
-	 * Get logger
-	 * 
-	 * @return loggers
-	 */
+
 	public Logger getLog() {
 		return this.log;
 	}
 
-	/**
-	 * Get gson
-	 * 
-	 * @return {@link Gson}
-	 */
+
 	public Gson getGson() {
 		return gson;
 	}
@@ -117,11 +91,6 @@ public abstract class ZPlugin extends JavaPlugin {
 		return persist;
 	}
 
-	/**
-	 * Get all saveables
-	 * 
-	 * @return savers
-	 */
 	public List<Saveable> getSavers() {
 		return savers;
 	}
@@ -130,18 +99,14 @@ public abstract class ZPlugin extends JavaPlugin {
 		return plugin;
 	}
 
-	/**
-	 * 
-	 * @param classz
-	 * @return
-	 */
 	protected <T> T getProvider(Class<T> classz) {
 		RegisteredServiceProvider<T> provider = getServer().getServicesManager().getRegistration(classz);
 		if (provider == null) {
 			log.log("Unable to retrieve the provider " + classz.toString(), Logger.LogType.WARNING);
 			return null;
 		}
-		return provider.getProvider() != null ? (T) provider.getProvider() : null;
+		provider.getProvider();
+		return (T) provider.getProvider();
 	}
 
 }

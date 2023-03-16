@@ -1,4 +1,4 @@
-package com.starrycity.poyu39.zcore.utils;
+package com.starrycity.zDiscord.zcore.utils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -45,9 +45,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.potion.PotionEffectType;
 
-import com.starrycity.poyu39.ZDiscordPlugin;
-import com.starrycity.poyu39.zcore.ZPlugin;
-import com.starrycity.poyu39.zcore.enums.Message;
+import com.starrycity.zDiscord.ZDiscordPlugin;
+import com.starrycity.zDiscord.zcore.ZPlugin;
+import com.starrycity.zDiscord.zcore.enums.Message;
 import fr.maxlego08.ztranslator.api.Translator;
 
 @SuppressWarnings("deprecation")

@@ -1,4 +1,4 @@
-package com.starrycity.poyu39.embed;
+package com.starrycity.zDiscord.embed;
 
 public class EmbedField {
 

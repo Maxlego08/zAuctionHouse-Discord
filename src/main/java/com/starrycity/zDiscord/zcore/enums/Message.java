@@ -1,4 +1,4 @@
-package com.starrycity.poyu39.zcore.enums;
+package com.starrycity.zDiscord.zcore.enums;
 
 import java.util.Arrays;
 import java.util.HashMap;
