@@ -36,7 +36,7 @@ public class Logger {
 		
 		private final String color;
 		
-		private LogType(String color) {
+		LogType(String color) {
 			this.color = color;
 		}
 		

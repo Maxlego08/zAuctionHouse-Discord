@@ -4,9 +4,9 @@ public enum Permission {
 
 	;
 
-	private String permission;
+	private final String permission;
 
-	private Permission() {
+	Permission() {
 		this.permission = this.name().toLowerCase().replace("_", ".");
 	}
 

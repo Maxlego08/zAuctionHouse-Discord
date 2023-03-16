@@ -1,35 +1,10 @@
 package com.starrycity.zDiscord.zcore.utils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import com.starrycity.zDiscord.ZDiscordPlugin;
+import com.starrycity.zDiscord.zcore.ZPlugin;
+import com.starrycity.zDiscord.zcore.enums.Message;
+import fr.maxlego08.ztranslator.api.Translator;
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
@@ -45,15 +20,27 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.potion.PotionEffectType;
 
-import com.starrycity.zDiscord.ZDiscordPlugin;
-import com.starrycity.zDiscord.zcore.ZPlugin;
-import com.starrycity.zDiscord.zcore.enums.Message;
-import fr.maxlego08.ztranslator.api.Translator;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
 public abstract class ZUtils extends MessageUtils {
 
-	private static transient List<String> teleportPlayers = new ArrayList<String>();
+	private static final List<String> teleportPlayers = new ArrayList<String>();
 	protected transient ZDiscordPlugin plugin = (ZDiscordPlugin) ZPlugin.z();
 	public static final Pattern STRIP_EXTRAS_PATTERN = Pattern.compile("(?i)§[0-9A-FK-ORX]");
 
@@ -118,7 +105,7 @@ public abstract class ZUtils extends MessageUtils {
 			player.getInventory().addItem(item);
 	}
 
-	private static transient Material[] byId;
+	private static Material[] byId;
 
 	static {
 		if (!ItemDecoder.isNewVersion()) {
@@ -386,7 +373,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected double percent(double value, double total) {
-		return (double) ((value * 100) / total);
+		return (value * 100) / total;
 	}
 
 	/**
@@ -396,7 +383,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected double percentNum(double total, double percent) {
-		return (double) (total * (percent / 100));
+		return total * (percent / 100);
 	}
 
 	/**
@@ -590,11 +577,11 @@ public abstract class ZUtils extends MessageUtils {
 		if (value < 10000)
 			return format(value, "#.#");
 		else if (value < 1000000)
-			return String.valueOf(Integer.valueOf((int) (value / 1000))) + "k ";
+			return Integer.valueOf((int) (value / 1000)) + "k ";
 		else if (value < 1000000000)
-			return String.valueOf(format((value / 1000) / 1000, "#.#")) + "m ";
-		else if (value < 1000000000000l)
-			return String.valueOf(Integer.valueOf((int) (((value / 1000) / 1000) / 1000))) + "M ";
+			return format((value / 1000) / 1000, "#.#") + "m ";
+		else if (value < 1000000000000L)
+			return Integer.valueOf((int) (((value / 1000) / 1000) / 1000)) + "M ";
 		else
 			return "to much";
 	}
@@ -608,11 +595,11 @@ public abstract class ZUtils extends MessageUtils {
 		if (value < 10000)
 			return format(value, "#.#");
 		else if (value < 1000000)
-			return String.valueOf(Integer.valueOf((int) (value / 1000))) + "k ";
+			return Integer.valueOf((int) (value / 1000)) + "k ";
 		else if (value < 1000000000)
-			return String.valueOf(format((value / 1000) / 1000, "#.#")) + "m ";
-		else if (value < 1000000000000l)
-			return String.valueOf(Integer.valueOf((int) (((value / 1000) / 1000) / 1000))) + "M ";
+			return format((value / 1000) / 1000, "#.#") + "m ";
+		else if (value < 1000000000000L)
+			return Integer.valueOf((int) (((value / 1000) / 1000) / 1000)) + "M ";
 		else
 			return "to much";
 	}
@@ -837,7 +824,7 @@ public abstract class ZUtils extends MessageUtils {
 		RegisteredServiceProvider<T> provider = plugin.getServer().getServicesManager().getRegistration(classz);
 		if (provider == null)
 			return null;
-		return provider.getProvider() != null ? (T) provider.getProvider() : null;
+		return provider.getProvider() != null ? provider.getProvider() : null;
 	}
 
 	/**

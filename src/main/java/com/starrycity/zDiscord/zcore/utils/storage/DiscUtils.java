@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.StandardCharsets;
 
 public class DiscUtils {
 
@@ -117,21 +118,11 @@ public class DiscUtils {
 	// -------------------------------------------- //
 
 	public static byte[] utf8(String string) {
-		try {
-			return string.getBytes(UTF8);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return string.getBytes(StandardCharsets.UTF_8);
 	}
 
 	public static String utf8(byte[] bytes) {
-		try {
-			return new String(bytes, UTF8);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return new String(bytes, StandardCharsets.UTF_8);
 	}
 
 }

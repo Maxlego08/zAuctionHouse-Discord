@@ -1,7 +1,5 @@
 package com.starrycity.zDiscord;
 
-import java.util.List;
-
 import com.starrycity.zDiscord.listener.AuctionListener;
 import com.starrycity.zDiscord.storage.Config;
 import com.starrycity.zDiscord.storage.Storage;
@@ -13,6 +11,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
+
+import java.util.List;
 
 /**
  * 

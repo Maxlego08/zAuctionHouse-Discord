@@ -1,9 +1,7 @@
 package com.starrycity.zDiscord.zcore;
 
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.starrycity.zDiscord.zcore.logger.Logger;
 import com.starrycity.zDiscord.zcore.utils.storage.Persist;
 import com.starrycity.zDiscord.zcore.utils.storage.Saveable;
@@ -12,8 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ZPlugin extends JavaPlugin {
 
@@ -22,7 +21,7 @@ public abstract class ZPlugin extends JavaPlugin {
 	private Persist persist;
 	private static ZPlugin plugin;
 	private long enableTime;
-	private List<Saveable> savers = new ArrayList<Saveable>();
+	private final List<Saveable> savers = new ArrayList<Saveable>();
 
 	public ZPlugin() {
 		plugin = this;
@@ -102,11 +101,11 @@ public abstract class ZPlugin extends JavaPlugin {
 	protected <T> T getProvider(Class<T> classz) {
 		RegisteredServiceProvider<T> provider = getServer().getServicesManager().getRegistration(classz);
 		if (provider == null) {
-			log.log("Unable to retrieve the provider " + classz.toString(), Logger.LogType.WARNING);
+			log.log("Unable to retrieve the provider " + classz, Logger.LogType.WARNING);
 			return null;
 		}
 		provider.getProvider();
-		return (T) provider.getProvider();
+		return provider.getProvider();
 	}
 
 }
