@@ -1,8 +1,8 @@
-name: StarryZAH-Discord
-author: poyu39
-main: com.starrycity.zDiscord.ZDiscordPlugin
-version: 1.2.0
+name: zAuctionHouse-Discord
+author: Maxlego08
+main: fr.maxlego08.discord.ZDiscordPlugin
+version: 1.1.0
 depend: 
  - zAuctionHouseV3
 commands:
-api-version: 1.19
+api-version: 1.13
