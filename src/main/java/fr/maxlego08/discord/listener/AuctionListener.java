@@ -204,7 +204,7 @@ public class AuctionListener extends ZUtils implements Listener {
 		}
 
 		string = string.replace("%price%", format(auctionItem.getPrice()));
-		string = string.replace("%currency%", auctionItem.getEconomy().toCurrency());
+		string = string.replace("%currency%", auctionItem.getEconomy().getCurrency());
 
 		switch (auctionItem.getType()) {
 		case DEFAULT:

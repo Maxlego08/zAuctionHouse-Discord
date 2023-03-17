@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.maxlego08.zauctionhouse</groupId>
 	<artifactId>zDiscord</artifactId>
-	<version>1.0.9</version>
+	<version>1.1.0</version>
 	<name>zAuctionHouse Discord</name>
 
 	<build>
@@ -65,7 +65,7 @@
 
 		<repository>
 			<id>jitpack.io</id>
-			<url>https://jitpack.io/</url>
+			<url>https://jitpack.io</url>
 		</repository>
 
 	</repositories>
@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>com.github.Maxlego08</groupId>
 			<artifactId>zAuctionHouseV3-API</artifactId>
-			<version>3.0.7.6</version>
+			<version>3.1.2.0</version>
 			<scope>provided</scope>
 		</dependency>
 
