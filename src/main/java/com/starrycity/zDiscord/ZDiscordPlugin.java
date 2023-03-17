@@ -4,8 +4,8 @@ import com.starrycity.zDiscord.listener.AuctionListener;
 import com.starrycity.zDiscord.storage.Config;
 import com.starrycity.zDiscord.storage.Storage;
 import com.starrycity.zDiscord.zcore.ZPlugin;
-import fr.maxlego08.zauctionhouse.api.utils.Logger;
-import fr.maxlego08.zauctionhouse.api.utils.Logger.LogType;
+import com.starrycity.zDiscord.zcore.logger.Logger;
+import com.starrycity.zDiscord.zcore.logger.Logger.LogType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -14,11 +14,12 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import java.util.List;
 
+import static org.bukkit.Bukkit.getPluginManager;
+
 /**
  * 
- * @author Maxence & poyu39
- * Starry 貿易平台分支
- * 主要更新至 1.19 版本和繁體中文化
+ * @author Maxence
+ * Discord bot for zAuctionHouse plugin
  *
  */
 public class ZDiscordPlugin extends ZPlugin {
@@ -31,20 +32,23 @@ public class ZDiscordPlugin extends ZPlugin {
 
 		this.preEnable();
 
-		this.addListener(new AuctionListener(this));
+		// this.addListener(new AuctionListener(this));
+		getServer().getPluginManager().registerEvents(new AuctionListener(this), this);
 
 		this.addSave(Config.getInstance());
 		this.addSave(Storage.getInstance());
 
 		this.getSavers().forEach(saver -> saver.load(this.getPersist()));
 		
-		// 更新設定檔
+		//Refresh configuration with new field
 		Config.getInstance().save(this.getPersist());
+
+		// Log bot
 
 		String token = Config.discordToken;
 		List<GatewayIntent> intents = Config.gatewayIntents;
 
-		// 載入 bot
+		//Load bot
 		Thread thread = new Thread(() -> {
 
 			try {
@@ -53,19 +57,19 @@ public class ZDiscordPlugin extends ZPlugin {
 				builder.setMemberCachePolicy(MemberCachePolicy.ALL);
 				jda = builder.build();
 				jda.getPresence().setActivity(Activity.of(Config.gameActivityType , Config.game));
-				Logger.info("成功載入 Discord Bot");
+				Logger.info("Loading of the discord bot successfully completed.");
 				isReady = true;
 
 			} catch (Exception e) {
 
 				e.printStackTrace();
-				Logger.info("請確認錯誤訊息後再到 Discord 尋求協助", LogType.ERROR);
-				Logger.info("如果錯誤顯示：“無法使用 CacheFlag。<something 1> without GatewayIntent.<something 2>”", LogType.ERROR);
-				Logger.info("你必須修改 config.json 文件以將 <something 2> 添加到 gatewayIntents 列表中。", LogType.ERROR);
-				Logger.info("如果錯誤說：提供的 Token 無效！", LogType.ERROR);
-				Logger.info("你的機器人 Token 無效，你必須將其添加到 config.json 文件中", LogType.ERROR);
+				Logger.info("Please read the error before coming on the discord to ask for help!", LogType.ERROR);
+				Logger.info("If the error says: \"Cannot use CacheFlag.<something 1> without GatewayIntent.<something 2>\"", LogType.ERROR);
+				Logger.info("You have to modify the config.json file to add the <something 2> in the gatewayIntents list.", LogType.ERROR);
+				Logger.info("if the error says: The provided token is invalid!", LogType.ERROR);
+				Logger.info("the token of your bot is invalid, and you have to add it in the config.json file", LogType.ERROR);
 				isReady = false;
-				this.getServer().getPluginManager().disablePlugin(this);
+				getPluginManager().disablePlugin(this);
 			}
 
 		}, "zDiscord-BOT");
@@ -91,7 +95,7 @@ public class ZDiscordPlugin extends ZPlugin {
 	}
 
 	/**
-	 * 取得 JDA
+	 * Get jda instance
 	 * @return {@link JDA}
 	 */
 	public JDA getJda() {
@@ -99,10 +103,12 @@ public class ZDiscordPlugin extends ZPlugin {
 	}
 
 	/**
-	 * 檢查插件是否已經準備好
+	 * Check if plugin is ready
 	 * @return boolean
 	 */
 	public boolean isReady() {
 		return isReady;
 	}
+	
+
 }

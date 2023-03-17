@@ -1,16 +1,16 @@
 package com.starrycity.zDiscord.zcore.utils.storage;
 
+import com.starrycity.zDiscord.zcore.ZPlugin;
+import com.starrycity.zDiscord.zcore.enums.Folder;
+import com.starrycity.zDiscord.zcore.logger.Logger.LogType;
+import com.starrycity.zDiscord.zcore.utils.ZUtils;
+
 import java.io.File;
 import java.lang.reflect.Type;
 
-import com.starrycity.zDiscord.zcore.logger.Logger;
-import com.starrycity.zDiscord.zcore.utils.ZUtils;
-import com.starrycity.zDiscord.zcore.ZPlugin;
-import com.starrycity.zDiscord.zcore.enums.Folder;
-
 public class Persist extends ZUtils {
 
-	private final ZPlugin p;
+	private ZPlugin p;
 
 	public Persist(ZPlugin p) {
 		this.p = p;
@@ -68,7 +68,7 @@ public class Persist extends ZUtils {
 
 	public <T> T loadOrSaveDefault(T def, Class<T> clazz, File file) {
 		if (!file.exists()) {
-			p.getLog().log("Creating default: " + file, Logger.LogType.SUCCESS);
+			p.getLog().log("Creating default: " + file, LogType.SUCCESS);
 			this.save(def, file);
 			return def;
 		}
@@ -76,7 +76,7 @@ public class Persist extends ZUtils {
 		T loaded = this.load(clazz, file);
 
 		if (loaded == null) {
-			p.getLog().log("Using default as I failed to load: " + file, Logger.LogType.WARNING);
+			p.getLog().log("Using default as I failed to load: " + file, LogType.WARNING);
 
 			/*
 			 * Create new config backup
@@ -85,14 +85,14 @@ public class Persist extends ZUtils {
 			File backup = new File(file.getPath() + "_bad");
 			if (backup.exists())
 				backup.delete();
-			p.getLog().log("Backing up copy of bad file to: " + backup, Logger.LogType.WARNING);
+			p.getLog().log("Backing up copy of bad file to: " + backup, LogType.WARNING);
 
 			file.renameTo(backup);
 
 			return def;
 		} else {
 
-			p.getLog().log(file.getAbsolutePath() + " loaded successfully !", Logger.LogType.SUCCESS);
+			p.getLog().log(file.getAbsolutePath() + " loaded successfully !", LogType.SUCCESS);
 
 		}
 
@@ -118,12 +118,12 @@ public class Persist extends ZUtils {
 		try {
 
 			boolean b = DiscUtils.writeCatch(file, p.getGson().toJson(instance));
-			p.getLog().log(file.getAbsolutePath() + " successfully saved !", Logger.LogType.SUCCESS);
+			p.getLog().log(file.getAbsolutePath() + " successfully saved !", LogType.SUCCESS);
 			return b;
 
 		} catch (Exception e) {
 
-			p.getLog().log("cannot save file " + file.getAbsolutePath(), Logger.LogType.ERROR);
+			p.getLog().log("cannot save file " + file.getAbsolutePath(), LogType.ERROR);
 			e.printStackTrace();
 
 			return false;
@@ -152,7 +152,7 @@ public class Persist extends ZUtils {
 		} catch (Exception ex) { // output the error message rather than full
 									// stack trace; error parsing the file, most
 									// likely
-			p.getLog().log(ex.getMessage(), Logger.LogType.ERROR);
+			p.getLog().log(ex.getMessage(), LogType.ERROR);
 		}
 
 		return null;
@@ -161,7 +161,7 @@ public class Persist extends ZUtils {
 	// LOAD BY TYPE
 	@SuppressWarnings("unchecked")
 	public <T> T load(Type typeOfT, String name) {
-		return load(typeOfT, getFile(name));
+		return (T) load(typeOfT, getFile(name));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -172,11 +172,11 @@ public class Persist extends ZUtils {
 		}
 
 		try {
-			return p.getGson().fromJson(content, typeOfT);
+			return (T) p.getGson().fromJson(content, typeOfT);
 		} catch (Exception ex) { // output the error message rather than full
 									// stack trace; error parsing the file, most
 									// likely
-			p.getLog().log(ex.getMessage(), Logger.LogType.ERROR);
+			p.getLog().log(ex.getMessage(), LogType.ERROR);
 		}
 
 		return null;

@@ -3,6 +3,7 @@ package com.starrycity.zDiscord.zcore;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.starrycity.zDiscord.zcore.logger.Logger;
+import com.starrycity.zDiscord.zcore.logger.Logger.LogType;
 import com.starrycity.zDiscord.zcore.utils.storage.Persist;
 import com.starrycity.zDiscord.zcore.utils.storage.Saveable;
 import org.bukkit.Bukkit;
@@ -21,23 +22,25 @@ public abstract class ZPlugin extends JavaPlugin {
 	private Persist persist;
 	private static ZPlugin plugin;
 	private long enableTime;
-	private final List<Saveable> savers = new ArrayList<Saveable>();
+	private List<Saveable> savers = new ArrayList<Saveable>();
 
 	public ZPlugin() {
 		plugin = this;
 	}
 
-	protected void preEnable() {
+	protected boolean preEnable() {
 
 		enableTime = System.currentTimeMillis();
 
 		log.log("=== ENABLE START ===");
-		log.log("Plugin Version V<&>c" + getDescription().getVersion(), Logger.LogType.INFO);
+		log.log("Plugin Version V<&>c" + getDescription().getVersion(), LogType.INFO);
+
 		getDataFolder().mkdirs();
 
 		gson = getGsonBuilder().create();
 		persist = new Persist(this);
 
+		return true;
 
 	}
 
@@ -61,27 +64,50 @@ public abstract class ZPlugin extends JavaPlugin {
 
 	}
 
+	/**
+	 * Build gson
+	 * 
+	 * @return
+	 */
 	public GsonBuilder getGsonBuilder() {
 		return new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().serializeNulls()
 				.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE);
 	}
 
+	/**
+	 * Add a listener
+	 * 
+	 * @param listener
+	 */
 	public void addListener(Listener listener) {
 		if (listener instanceof Saveable)
 			addSave((Saveable) listener);
 		Bukkit.getPluginManager().registerEvents(listener, this);
 	}
 
+	/**
+	 * Add a Saveable
+	 * 
+	 * @param saver
+	 */
 	public void addSave(Saveable saver) {
 		this.savers.add(saver);
 	}
 
-
+	/**
+	 * Get logger
+	 * 
+	 * @return loggers
+	 */
 	public Logger getLog() {
 		return this.log;
 	}
 
-
+	/**
+	 * Get gson
+	 * 
+	 * @return {@link Gson}
+	 */
 	public Gson getGson() {
 		return gson;
 	}
@@ -90,6 +116,11 @@ public abstract class ZPlugin extends JavaPlugin {
 		return persist;
 	}
 
+	/**
+	 * Get all saveables
+	 * 
+	 * @return savers
+	 */
 	public List<Saveable> getSavers() {
 		return savers;
 	}
@@ -98,14 +129,18 @@ public abstract class ZPlugin extends JavaPlugin {
 		return plugin;
 	}
 
+	/**
+	 * 
+	 * @param classz
+	 * @return
+	 */
 	protected <T> T getProvider(Class<T> classz) {
 		RegisteredServiceProvider<T> provider = getServer().getServicesManager().getRegistration(classz);
 		if (provider == null) {
-			log.log("Unable to retrieve the provider " + classz, Logger.LogType.WARNING);
+			log.log("Unable to retrieve the provider " + classz.toString(), LogType.WARNING);
 			return null;
 		}
-		provider.getProvider();
-		return provider.getProvider();
+		return provider.getProvider() != null ? (T) provider.getProvider() : null;
 	}
 
 }

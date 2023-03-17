@@ -1,6 +1,9 @@
 package com.starrycity.zDiscord.zcore.enums;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public enum Message {
 
@@ -36,12 +39,12 @@ public enum Message {
 	 * 
 	 * @param message
 	 */
-	Message(String message) {
+	private Message(String message) {
 		this.message = message;
 		this.use = true;
 	}
 
-	Message(String title, String subTitle, int a, int b, int c) {
+	private Message(String title, String subTitle, int a, int b, int c) {
 		this.use = true;
 		this.titles.put("title", title);
 		this.titles.put("subtitle", subTitle);
@@ -55,7 +58,7 @@ public enum Message {
 	 * 
 	 * @param message
 	 */
-	Message(String... message) {
+	private Message(String... message) {
 		this.messages = Arrays.asList(message);
 		this.use = true;
 	}
@@ -65,7 +68,7 @@ public enum Message {
 	 * @param message
 	 * @param use
 	 */
-	Message(String message, boolean use) {
+	private Message(String message, boolean use) {
 		this.message = message;
 		this.use = use;
 	}
@@ -91,7 +94,7 @@ public enum Message {
 	}
 
 	public List<String> getMessages() {
-		return messages == null ? Collections.singletonList(message) : messages;
+		return messages == null ? Arrays.asList(message) : messages;
 	}
 
 	public void setMessages(List<String> messages) {

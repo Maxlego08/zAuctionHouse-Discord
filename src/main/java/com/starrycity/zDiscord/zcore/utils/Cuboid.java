@@ -1,18 +1,10 @@
 package com.starrycity.zDiscord.zcore.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+
+import java.util.*;
 
 public class Cuboid implements Iterable<Block>, Cloneable, ConfigurationSerializable {
 
@@ -671,19 +663,15 @@ public class Cuboid implements Iterable<Block>, Cloneable, ConfigurationSerializ
 
 	@Override
 	public String toString() {
-		return "Cuboid: " + this.worldName + "," + this.x1 + "," + this.y1 + "," + this.z1 + "=>" + this.x2
-				+ "," + this.y2 + "," + this.z2;
+		return new String("Cuboid: " + this.worldName + "," + this.x1 + "," + this.y1 + "," + this.z1 + "=>" + this.x2
+				+ "," + this.y2 + "," + this.z2);
 	}
 
 	public class CuboidIterator implements Iterator<Block> {
-		private final World w;
-		private final int baseX;
-		private final int baseY;
-		private final int baseZ;
+		private World w;
+		private int baseX, baseY, baseZ;
 		private int x, y, z;
-		private final int sizeX;
-		private final int sizeY;
-		private final int sizeZ;
+		private int sizeX, sizeY, sizeZ;
 
 		public CuboidIterator(World w, int x1, int y1, int z1, int x2, int y2, int z2) {
 			this.w = w;

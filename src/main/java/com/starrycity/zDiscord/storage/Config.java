@@ -1,9 +1,9 @@
 package com.starrycity.zDiscord.storage;
 
 import com.starrycity.zDiscord.embed.EmbedField;
-import com.starrycity.zDiscord.zcore.utils.Color;
 import com.starrycity.zDiscord.zcore.utils.storage.Persist;
 import com.starrycity.zDiscord.zcore.utils.storage.Saveable;
+import com.starrycity.zDiscord.zcore.utils.Color;
 import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.enchantments.Enchantment;
@@ -18,7 +18,7 @@ public class Config implements Saveable {
 
 	public static String discordToken = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
-	public static long channelID = 807991026186715146L;
+	public static long channelID = 807991026186715146l;
 	public static List<GatewayIntent> gatewayIntents = new ArrayList<GatewayIntent>();
 	
 	
@@ -50,7 +50,7 @@ public class Config implements Saveable {
 		gatewayIntents.add(GatewayIntent.GUILD_PRESENCES);
 		gatewayIntents.add(GatewayIntent.GUILD_VOICE_STATES);
 		gatewayIntents.add(GatewayIntent.SCHEDULED_EVENTS);
-
+		
 		for(Enchantment enchantment : Enchantment.values()){
 			enchantments.put(enchantment.getName(), enchantment.getName());
 		}

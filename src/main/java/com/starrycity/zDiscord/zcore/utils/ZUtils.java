@@ -40,7 +40,7 @@ import java.util.stream.Stream;
 @SuppressWarnings("deprecation")
 public abstract class ZUtils extends MessageUtils {
 
-	private static final List<String> teleportPlayers = new ArrayList<String>();
+	private static transient List<String> teleportPlayers = new ArrayList<String>();
 	protected transient ZDiscordPlugin plugin = (ZDiscordPlugin) ZPlugin.z();
 	public static final Pattern STRIP_EXTRAS_PATTERN = Pattern.compile("(?i)§[0-9A-FK-ORX]");
 
@@ -105,7 +105,7 @@ public abstract class ZUtils extends MessageUtils {
 			player.getInventory().addItem(item);
 	}
 
-	private static Material[] byId;
+	private static transient Material[] byId;
 
 	static {
 		if (!ItemDecoder.isNewVersion()) {
@@ -221,7 +221,7 @@ public abstract class ZUtils extends MessageUtils {
 	 */
 	protected void teleport(Player player, int delay, Location location, Consumer<Boolean> cmd) {
 		if (teleportPlayers.contains(player.getName())) {
-			message(player, Message.TELEPORT_ERROR);
+			message(player, String.valueOf(Message.TELEPORT_ERROR));
 			return;
 		}
 		ScheduledExecutorService ses = Executors.newScheduledThreadPool(1);
@@ -232,7 +232,7 @@ public abstract class ZUtils extends MessageUtils {
 			location.getChunk().load();
 		ses.scheduleWithFixedDelay(() -> {
 			if (!same(playerLocation, player.getLocation())) {
-				message(player, Message.TELEPORT_MOVE);
+				message(player, String.valueOf(Message.TELEPORT_MOVE));
 				ses.shutdown();
 				teleportPlayers.remove(player.getName());
 				if (cmd != null)
@@ -249,11 +249,11 @@ public abstract class ZUtils extends MessageUtils {
 				ses.shutdown();
 				teleportPlayers.remove(player.getName());
 				player.teleport(location);
-				message(player, Message.TELEPORT_SUCCESS);
+				message(player, String.valueOf(Message.TELEPORT_SUCCESS));
 				if (cmd != null)
 					cmd.accept(true);
 			} else
-				message(player, Message.TELEPORT_MESSAGE, currentSecond);
+				message(player, String.valueOf(Message.TELEPORT_MESSAGE), currentSecond);
 		}, 0, 1, TimeUnit.SECONDS);
 	}
 
@@ -373,7 +373,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected double percent(double value, double total) {
-		return (value * 100) / total;
+		return (double) ((value * 100) / total);
 	}
 
 	/**
@@ -383,7 +383,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * @return
 	 */
 	protected double percentNum(double total, double percent) {
-		return total * (percent / 100);
+		return (double) (total * (percent / 100));
 	}
 
 	/**
@@ -577,11 +577,11 @@ public abstract class ZUtils extends MessageUtils {
 		if (value < 10000)
 			return format(value, "#.#");
 		else if (value < 1000000)
-			return Integer.valueOf((int) (value / 1000)) + "k ";
+			return String.valueOf(Integer.valueOf((int) (value / 1000))) + "k ";
 		else if (value < 1000000000)
-			return format((value / 1000) / 1000, "#.#") + "m ";
-		else if (value < 1000000000000L)
-			return Integer.valueOf((int) (((value / 1000) / 1000) / 1000)) + "M ";
+			return String.valueOf(format((value / 1000) / 1000, "#.#")) + "m ";
+		else if (value < 1000000000000l)
+			return String.valueOf(Integer.valueOf((int) (((value / 1000) / 1000) / 1000))) + "M ";
 		else
 			return "to much";
 	}
@@ -595,11 +595,11 @@ public abstract class ZUtils extends MessageUtils {
 		if (value < 10000)
 			return format(value, "#.#");
 		else if (value < 1000000)
-			return Integer.valueOf((int) (value / 1000)) + "k ";
+			return String.valueOf(Integer.valueOf((int) (value / 1000))) + "k ";
 		else if (value < 1000000000)
-			return format((value / 1000) / 1000, "#.#") + "m ";
-		else if (value < 1000000000000L)
-			return Integer.valueOf((int) (((value / 1000) / 1000) / 1000)) + "M ";
+			return String.valueOf(format((value / 1000) / 1000, "#.#")) + "m ";
+		else if (value < 1000000000000l)
+			return String.valueOf(Integer.valueOf((int) (((value / 1000) / 1000) / 1000))) + "M ";
 		else
 			return "to much";
 	}
@@ -824,7 +824,7 @@ public abstract class ZUtils extends MessageUtils {
 		RegisteredServiceProvider<T> provider = plugin.getServer().getServicesManager().getRegistration(classz);
 		if (provider == null)
 			return null;
-		return provider.getProvider() != null ? provider.getProvider() : null;
+		return provider.getProvider() != null ? (T) provider.getProvider() : null;
 	}
 
 	/**

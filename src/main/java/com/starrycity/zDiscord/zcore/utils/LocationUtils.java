@@ -98,9 +98,9 @@ public abstract class LocationUtils {
 	 */
 	protected Cuboid changeStringToCuboid(String str) {
 
-		String[] parsedCuboid = str.split(";");
-		String[] parsedFirstLoc = parsedCuboid[0].split(",");
-		String[] parsedSecondLoc = parsedCuboid[1].split(",");
+		String parsedCuboid[] = str.split(";");
+		String parsedFirstLoc[] = parsedCuboid[0].split(",");
+		String parsedSecondLoc[] = parsedCuboid[1].split(",");
 
 		String firstWorldName = parsedFirstLoc[0];
 		double firstX = Double.valueOf(parsedFirstLoc[1]);

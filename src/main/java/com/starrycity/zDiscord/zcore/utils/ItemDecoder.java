@@ -1,5 +1,9 @@
 package com.starrycity.zDiscord.zcore.utils;
 
+import fr.maxlego08.ztranslator.zcore.utils.Base64;
+import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -8,14 +12,9 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.ItemStack;
-
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-
 public class ItemDecoder {
 
-	private static final Map<ItemStack, String> itemstackSerialized = new HashMap<ItemStack, String>();
+	private static volatile Map<ItemStack, String> itemstackSerialized = new HashMap<ItemStack, String>();
 
 	public static String serializeItemStack(ItemStack paramItemStack) {
 
@@ -29,16 +28,16 @@ public class ItemDecoder {
 		ByteArrayOutputStream localByteArrayOutputStream = null;
 		try {
 			Class<?> localClass = getNMSClass("NBTTagCompound");
-			Constructor<?> localConstructor = localClass.getConstructor();
-			Object localObject1 = localConstructor.newInstance();
+			Constructor<?> localConstructor = localClass.getConstructor(new Class[0]);
+			Object localObject1 = localConstructor.newInstance(new Object[0]);
 			Object localObject2 = getOBClass("inventory.CraftItemStack")
 					.getMethod("asNMSCopy", new Class[] { ItemStack.class })
-					.invoke(null, paramItemStack);
+					.invoke(null, new Object[] { paramItemStack });
 			getNMSClass("ItemStack").getMethod("save", new Class[] { localClass }).invoke(localObject2,
-					localObject1);
+					new Object[] { localObject1 });
 			localByteArrayOutputStream = new ByteArrayOutputStream();
 			getNMSClass("NBTCompressedStreamTools").getMethod("a", new Class[] { localClass, OutputStream.class })
-					.invoke(null, localObject1, localByteArrayOutputStream);
+					.invoke(null, new Object[] { localObject1, localByteArrayOutputStream });
 		} catch (Exception localException) {
 			localException.printStackTrace();
 		}
@@ -64,19 +63,19 @@ public class ItemDecoder {
 		Object localObject2 = null;
 		try {
 			localObject1 = getNMSClass("NBTCompressedStreamTools").getMethod("a", new Class[] { InputStream.class })
-					.invoke(null, localByteArrayInputStream);
+					.invoke(null, new Object[] { localByteArrayInputStream });
 			if (getNMSVersion() == 1.11D || getNMSVersion() == 1.12D) {
-				Constructor<?> localConstructor = localClass2.getConstructor(localClass1);
-				localObject2 = localConstructor.newInstance(localObject1);
+				Constructor<?> localConstructor = localClass2.getConstructor(new Class[] { localClass1 });
+				localObject2 = localConstructor.newInstance(new Object[] { localObject1 });
 			}
 
 			else if (getNMSVersion() == 1.13D || getNMSVersion() == 1.14D || getNMSVersion() == 1.15D
 					|| getNMSVersion() == 1.16D) {
 				localObject2 = localClass2.getMethod("a", new Class[] { localClass1 }).invoke(null,
-						localObject1);
+						new Object[] { localObject1 });
 			} else {
 				localObject2 = localClass2.getMethod("createStack", new Class[] { localClass1 }).invoke(null,
-						localObject1);
+						new Object[] { localObject1 });
 			}
 			localItemStack = (ItemStack) getOBClass("inventory.CraftItemStack")
 					.getMethod("asBukkitCopy", new Class[] { localClass2 }).invoke(null, new Object[] { localObject2 });
