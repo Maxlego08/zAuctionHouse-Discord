@@ -6,9 +6,9 @@
 作者：Poyu39 `Discord:poyu#9239`
 
 ### 目前依賴項版本
-- zAuctionHouseV3-API `3.1.2`
-- paper-api `1.19.2-R0.1-SNAPSHOT`
-- JDA `5.0.0-beta.5`
+- zAuctionHouseV3-API `3.1.2.0`
+- paper-api `1.19.3-R0.1-SNAPSHOT`
+- JDA `4.4.0`
 - zTranslator `1.0.0.2`
 
 # 如何設定插件
