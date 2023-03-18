@@ -7,26 +7,26 @@ import java.util.Map;
 
 public enum Message {
 
-	PREFIX("§7(§bTemplate§7)"),
+	PREFIX("Â§7(Â§bTemplateÂ§7)"),
 
-	TELEPORT_MOVE("§cVous ne devez pas bouger !"), TELEPORT_MESSAGE(
-			"§7Téléportatio dans §3%s §7secondes !"), TELEPORT_ERROR(
-					"§cVous avez déjà une téléportation en cours !"), TELEPORT_SUCCESS("§7Téléportation effectué !"),
+	TELEPORT_MOVE("Â§cVous ne devez pas bouger !"), TELEPORT_MESSAGE(
+			"Â§7TÂ§lÂ§portatio dans Â§3%s Â§7secondes !"), TELEPORT_ERROR(
+					"Â§cVous avez dÂ§jÂ§ une tÂ§lÂ§portation en cours !"), TELEPORT_SUCCESS("Â§7TÂ§lÂ§portation effectuÂ§ !"),
 
-	INVENTORY_NULL("§cImpossible de trouver l'inventaire avec l'id §6%s§c."), INVENTORY_CLONE_NULL(
-			"§cLe clone de l'inventaire est null !"), INVENTORY_OPEN_ERROR(
-					"§cUne erreur est survenu avec l'ouverture de l'inventaire §6%s§c."), INVENTORY_BUTTON_PREVIOUS(
-							"§f» §7Page précédente"), INVENTORY_BUTTON_NEXT("§f» §7Page suivante"),
+	INVENTORY_NULL("Â§cImpossible de trouver l'inventaire avec l'id Â§6%sÂ§c."), INVENTORY_CLONE_NULL(
+			"Â§cLe clone de l'inventaire est null !"), INVENTORY_OPEN_ERROR(
+					"Â§cUne erreur est survenu avec l'ouverture de l'inventaire Â§6%sÂ§c."), INVENTORY_BUTTON_PREVIOUS(
+							"Â§fÂ§ Â§7Page prÂ§cÂ§dente"), INVENTORY_BUTTON_NEXT("Â§fÂ§ Â§7Page suivante"),
 
 	TIME_DAY("%02d jour(s) %02d heure(s) %02d minute(s) %02d seconde(s)"), TIME_HOUR(
 			"%02d heure(s) %02d minute(s) %02d seconde(s)"), TIME_HOUR_SIMPLE(
 					"%02d:%02d:%02d"), TIME_MINUTE("%02d minute(s) %02d seconde(s)"), TIME_SECOND("%02d seconde(s)"),
 
-	COMMAND_SYNTAXE_ERROR("§cVous devez exécuter la commande comme ceci§7: §a%s"), COMMAND_NO_PERMISSION(
-			"§cVous n'avez pas la permission d'exécuter cette commande."), COMMAND_NO_CONSOLE(
-					"§cSeul un joueur peut exécuter cette commande."), COMMAND_NO_ARG(
-							"§cImpossible de trouver la commande avec ses arguments."), COMMAND_SYNTAXE_HELP(
-									"§a%s §b» §7%s"),
+	COMMAND_SYNTAXE_ERROR("Â§cVous devez exÂ§cuter la commande comme ceciÂ§7: Â§a%s"), COMMAND_NO_PERMISSION(
+			"Â§cVous n'avez pas la permission d'exÂ§cuter cette commande."), COMMAND_NO_CONSOLE(
+					"Â§cSeul un joueur peut exÂ§cuter cette commande."), COMMAND_NO_ARG(
+							"Â§cImpossible de trouver la commande avec ses arguments."), COMMAND_SYNTAXE_HELP(
+									"Â§a%s Â§bÂ§ Â§7%s"),
 
 	;
 

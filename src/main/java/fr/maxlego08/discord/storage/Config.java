@@ -22,7 +22,6 @@ public class Config implements Saveable {
 	public static long channelID = 807991026186715146l;
 	public static List<GatewayIntent> gatewayIntents = new ArrayList<GatewayIntent>();
 	
-	
 	public static boolean use = false;
 	public static boolean useTimestamp = true;
 	public static boolean removeMessage = true;

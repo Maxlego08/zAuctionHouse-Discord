@@ -156,8 +156,8 @@ public class AuctionListener extends ZUtils implements Listener {
 	/**
 	 * Replace string
 	 * 
-	 * @param event
-	 * @param bool
+	 * @param auctionItem
+	 * @param isEdited
 	 * @return {@link EmbedBuilder}
 	 */
 	private EmbedBuilder getBuilder(AuctionItem auctionItem, boolean isEdited) {
