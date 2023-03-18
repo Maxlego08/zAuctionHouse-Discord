@@ -7,7 +7,7 @@
 
 ### 目前依賴項版本
 - zAuctionHouseV3-API `3.1.2.0`
-- paper-api `1.19.3-R0.1-SNAPSHOT`
+- spigot-api `1.19.3-R0.1-SNAPSHOT`
 - JDA `4.4.0`
 - zTranslator `1.0.0.2`
 
