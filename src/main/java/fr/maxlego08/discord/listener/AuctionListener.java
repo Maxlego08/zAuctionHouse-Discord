@@ -79,7 +79,7 @@ public class AuctionListener extends ZUtils implements Listener {
 				return;
 			}
 
-			Message message = finalChannel.sendMessage(builder.build()).complete();
+			Message message = finalChannel.sendMessageEmbeds(builder.build()).complete();
 
 			if (message == null) {
 				Logger.info("Unable to create the message, please check your configuration.", LogType.ERROR);
@@ -147,7 +147,7 @@ public class AuctionListener extends ZUtils implements Listener {
 				message.delete().queue();
 			} else if (Config.editMessage) {
 				EmbedBuilder builder = getBuilder(auctionItem, true);
-				message.editMessage(builder.build()).queue();
+				message.editMessageEmbeds(builder.build()).queue();
 			}
 
 		});
@@ -156,8 +156,8 @@ public class AuctionListener extends ZUtils implements Listener {
 	/**
 	 * Replace string
 	 * 
-	 * @param event
-	 * @param bool
+	 * @param auctionItem
+	 * @param isEdited
 	 * @return {@link EmbedBuilder}
 	 */
 	private EmbedBuilder getBuilder(AuctionItem auctionItem, boolean isEdited) {
