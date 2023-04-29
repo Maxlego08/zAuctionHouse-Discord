@@ -228,7 +228,7 @@ public class AuctionListener extends ZUtils implements Listener {
 	 */
 	private String getEnchant(ItemStack item) {
 		StringBuilder builder = new StringBuilder();
-		if (Config.hideItemEnchantWithHideFlag && item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
+		if (Config.hideItemEnchantWithHideFlag && item.hasItemMeta() && item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
 			builder.append("nothing");
 		else if (item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
 			Iterator<Entry<Enchantment, Integer>> it = item.getItemMeta().getEnchants().entrySet().iterator();

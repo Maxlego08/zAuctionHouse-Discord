@@ -1,35 +1,10 @@
 package fr.maxlego08.discord.zcore.utils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
+import fr.maxlego08.discord.ZDiscordPlugin;
+import fr.maxlego08.discord.zcore.ZPlugin;
+import fr.maxlego08.discord.zcore.enums.Message;
+import fr.maxlego08.ztranslator.api.Translator;
+import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.PluginCommand;
@@ -45,17 +20,29 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.potion.PotionEffectType;
 
-import fr.maxlego08.discord.ZDiscordPlugin;
-import fr.maxlego08.discord.zcore.ZPlugin;
-import fr.maxlego08.discord.zcore.enums.Message;
-import fr.maxlego08.ztranslator.api.Translator;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
 public abstract class ZUtils extends MessageUtils {
 
 	private static transient List<String> teleportPlayers = new ArrayList<String>();
 	protected transient ZDiscordPlugin plugin = (ZDiscordPlugin) ZPlugin.z();
-	public static final Pattern STRIP_EXTRAS_PATTERN = Pattern.compile("(?i)§[0-9A-FK-ORX]");
+	public static final Pattern STRIP_EXTRAS_PATTERN = Pattern.compile("(?i)§+[0-9A-FK-ORX]");
 
 	/**
 	 * @param item
@@ -170,7 +157,6 @@ public abstract class ZUtils extends MessageUtils {
 	 * Remove the item from the player's hand
 	 * 
 	 * @param player
-	 * @param number
 	 *            of items to withdraw
 	 */
 	protected void removeItemInHand(Player player) {
@@ -181,7 +167,7 @@ public abstract class ZUtils extends MessageUtils {
 	 * Remove the item from the player's hand
 	 * 
 	 * @param player
-	 * @param number
+	 * @param how
 	 *            of items to withdraw
 	 */
 	protected void removeItemInHand(Player player, int how) {
@@ -195,9 +181,9 @@ public abstract class ZUtils extends MessageUtils {
 	/**
 	 * Check if two locations are identical
 	 * 
-	 * @param first
+	 * @param l
 	 *            location
-	 * @param second
+	 * @param l2
 	 *            location
 	 * @return true if both rentals are the same
 	 */
@@ -229,7 +215,7 @@ public abstract class ZUtils extends MessageUtils {
 	 *            before the teleportation of the player
 	 * @param location
 	 *            where the player will be teleported
-	 * @param code
+	 * @param cmd
 	 *            executed when the player is teleported or not
 	 */
 	protected void teleport(Player player, int delay, Location location, Consumer<Boolean> cmd) {
@@ -353,7 +339,7 @@ public abstract class ZUtils extends MessageUtils {
 
 	/**
 	 * 
-	 * @param string
+	 * @param itemStack
 	 * @return
 	 */
 	protected String name(ItemStack itemStack) {
@@ -818,8 +804,6 @@ public abstract class ZUtils extends MessageUtils {
 
 	/**
 	 * 
-	 * @param itemStack
-	 * @param player
 	 * @return itemstack
 	 */
 	protected ItemStack playerHead() {
