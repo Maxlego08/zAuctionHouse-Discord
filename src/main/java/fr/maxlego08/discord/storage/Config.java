@@ -30,7 +30,7 @@ public class Config implements Saveable {
 	public static boolean removeExtrasCode = true;
 	public static boolean hideItemEnchantWithHideFlag = true;
 	public static String game = "zAuctionHouse VDEV-3";
-	public static ActivityType gameActivityType = ActivityType.DEFAULT;
+	public static ActivityType gameActivityType = ActivityType.PLAYING;
 	public static Color embedColor = new Color(255, 0, 0);
 	public static Color embedColorEdit = new Color(0, 255, 0);
 	public static String header = "none";
@@ -43,7 +43,7 @@ public class Config implements Saveable {
 	
 	static {
 		gatewayIntents.add(GatewayIntent.GUILD_MEMBERS);
-		gatewayIntents.add(GatewayIntent.GUILD_EMOJIS);
+		gatewayIntents.add(GatewayIntent.GUILD_EMOJIS_AND_STICKERS);
 		gatewayIntents.add(GatewayIntent.DIRECT_MESSAGES);
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGE_REACTIONS);
 		gatewayIntents.add(GatewayIntent.GUILD_MESSAGES);

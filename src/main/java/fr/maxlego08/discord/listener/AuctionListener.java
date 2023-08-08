@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Optional;
 
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -30,7 +31,6 @@ import fr.maxlego08.zauctionhouse.api.utils.Logger.LogType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 
 public class AuctionListener extends ZUtils implements Listener {
 
@@ -79,7 +79,7 @@ public class AuctionListener extends ZUtils implements Listener {
 				return;
 			}
 
-			Message message = finalChannel.sendMessage(builder.build()).complete();
+			Message message = finalChannel.sendMessage((CharSequence) builder.build()).complete();
 
 			if (message == null) {
 				Logger.info("Unable to create the message, please check your configuration.", LogType.ERROR);
@@ -147,7 +147,7 @@ public class AuctionListener extends ZUtils implements Listener {
 				message.delete().queue();
 			} else if (Config.editMessage) {
 				EmbedBuilder builder = getBuilder(auctionItem, true);
-				message.editMessage(builder.build()).queue();
+				message.editMessage((CharSequence) builder.build()).queue();
 			}
 
 		});
