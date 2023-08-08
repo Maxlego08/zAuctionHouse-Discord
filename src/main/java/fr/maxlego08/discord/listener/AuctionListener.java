@@ -156,8 +156,6 @@ public class AuctionListener extends ZUtils implements Listener {
 	/**
 	 * Replace string
 	 * 
-	 * @param event
-	 * @param bool
 	 * @return {@link EmbedBuilder}
 	 */
 	private EmbedBuilder getBuilder(AuctionItem auctionItem, boolean isEdited) {
@@ -204,7 +202,7 @@ public class AuctionListener extends ZUtils implements Listener {
 		}
 
 		string = string.replace("%price%", format(auctionItem.getPrice()));
-		string = string.replace("%currency%", auctionItem.getEconomy().toCurrency());
+		string = string.replace("%currency%", auctionItem.getEconomy().getCurrency());
 
 		switch (auctionItem.getType()) {
 		case DEFAULT:
