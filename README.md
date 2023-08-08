@@ -7,8 +7,8 @@
 
 ### 目前依賴項版本
 - zAuctionHouseV3-API `3.1.2.0`
-- spigot-api `1.19.3-R0.1-SNAPSHOT`
-- JDA `4.4.0`
+- spigot-api `1.20.1-R0.1-SNAPSHOT`
+- JDA `5.0.0-beta.13`
 - zTranslator `1.0.0.2`
 
 # 如何設定插件
