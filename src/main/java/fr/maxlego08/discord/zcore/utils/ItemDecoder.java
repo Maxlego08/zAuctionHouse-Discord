@@ -11,7 +11,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Base64;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class ItemDecoder {
 
@@ -29,20 +29,20 @@ public class ItemDecoder {
 		ByteArrayOutputStream localByteArrayOutputStream = null;
 		try {
 			Class<?> localClass = getNMSClass("NBTTagCompound");
-			Constructor<?> localConstructor = localClass.getConstructor();
-			Object localObject1 = localConstructor.newInstance();
+			Constructor<?> localConstructor = localClass.getConstructor(new Class[0]);
+			Object localObject1 = localConstructor.newInstance(new Object[0]);
 			Object localObject2 = getOBClass("inventory.CraftItemStack")
-					.getMethod("asNMSCopy", ItemStack.class)
-					.invoke(null, paramItemStack);
-			getNMSClass("ItemStack").getMethod("save", localClass).invoke(localObject2,
-					localObject1);
+					.getMethod("asNMSCopy", new Class[] { ItemStack.class })
+					.invoke(null, new Object[] { paramItemStack });
+			getNMSClass("ItemStack").getMethod("save", new Class[] { localClass }).invoke(localObject2,
+					new Object[] { localObject1 });
 			localByteArrayOutputStream = new ByteArrayOutputStream();
-			getNMSClass("NBTCompressedStreamTools").getMethod("a", localClass, OutputStream.class)
-					.invoke(null, localObject1, localByteArrayOutputStream);
+			getNMSClass("NBTCompressedStreamTools").getMethod("a", new Class[] { localClass, OutputStream.class })
+					.invoke(null, new Object[] { localObject1, localByteArrayOutputStream });
 		} catch (Exception localException) {
 			localException.printStackTrace();
 		}
-		String string = Base64.getEncoder().encodeToString(localByteArrayOutputStream.toByteArray());
+		String string = Base64.encode(localByteArrayOutputStream.toByteArray());
 		itemstackSerialized.put(paramItemStack, string);
 		return string;
 	}
@@ -54,7 +54,7 @@ public class ItemDecoder {
 		}
 		ByteArrayInputStream localByteArrayInputStream = null;
 		try {
-			localByteArrayInputStream = new ByteArrayInputStream(Base64.getEncoder().encode(paramString.getBytes()));
+			localByteArrayInputStream = new ByteArrayInputStream(Base64.decode(paramString));
 		} catch (Exception localBase64DecodingException) {
 		}
 		Class<?> localClass1 = getNMSClass("NBTTagCompound");
@@ -63,23 +63,23 @@ public class ItemDecoder {
 		ItemStack localItemStack = null;
 		Object localObject2 = null;
 		try {
-			localObject1 = getNMSClass("NBTCompressedStreamTools").getMethod("a", InputStream.class)
-					.invoke(null, localByteArrayInputStream);
+			localObject1 = getNMSClass("NBTCompressedStreamTools").getMethod("a", new Class[] { InputStream.class })
+					.invoke(null, new Object[] { localByteArrayInputStream });
 			if (getNMSVersion() == 1.11D || getNMSVersion() == 1.12D) {
-				Constructor<?> localConstructor = localClass2.getConstructor(localClass1);
-				localObject2 = localConstructor.newInstance(localObject1);
+				Constructor<?> localConstructor = localClass2.getConstructor(new Class[] { localClass1 });
+				localObject2 = localConstructor.newInstance(new Object[] { localObject1 });
 			}
 
 			else if (getNMSVersion() == 1.13D || getNMSVersion() == 1.14D || getNMSVersion() == 1.15D
 					|| getNMSVersion() == 1.16D) {
-				localObject2 = localClass2.getMethod("a", localClass1).invoke(null,
-						localObject1);
+				localObject2 = localClass2.getMethod("a", new Class[] { localClass1 }).invoke(null,
+						new Object[] { localObject1 });
 			} else {
-				localObject2 = localClass2.getMethod("createStack", localClass1).invoke(null,
-						localObject1);
+				localObject2 = localClass2.getMethod("createStack", new Class[] { localClass1 }).invoke(null,
+						new Object[] { localObject1 });
 			}
 			localItemStack = (ItemStack) getOBClass("inventory.CraftItemStack")
-					.getMethod("asBukkitCopy", localClass2).invoke(null, new Object[] { localObject2 });
+					.getMethod("asBukkitCopy", new Class[] { localClass2 }).invoke(null, new Object[] { localObject2 });
 		} catch (Exception localException) {
 			localException.printStackTrace();
 		}
