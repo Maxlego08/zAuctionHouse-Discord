@@ -17,6 +17,7 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 /**
  * 
  * @author Maxence
+ * @forked by poyu39
  * Discord bot for zAuctionHouse plugin
  *
  */

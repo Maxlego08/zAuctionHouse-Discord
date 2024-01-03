@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-import fr.maxlego08.discord.action.Action;
-import fr.maxlego08.discord.action.ActionType;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -32,9 +31,6 @@ import fr.maxlego08.zauctionhouse.api.utils.Logger.LogType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
-
-import javax.annotation.Nullable;
 
 public class AuctionListener extends ZUtils implements Listener {
 
@@ -50,6 +46,7 @@ public class AuctionListener extends ZUtils implements Listener {
 
 	@EventHandler
 	public void onSell(AuctionSellEvent event) {
+
 		AuctionItem auctionItem = event.getAuctionItem();
 
 		JDA jda = plugin.getJda();
@@ -60,6 +57,7 @@ public class AuctionListener extends ZUtils implements Listener {
 		}
 		TextChannel channel = null;
 		try {
+
 			channel = jda.getTextChannelById(Config.channelID);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,21 +71,23 @@ public class AuctionListener extends ZUtils implements Listener {
 
 		TextChannel finalChannel = channel;
 		runAsync(() -> {
-			EmbedBuilder builder = getBuilder(auctionItem, ActionType.SALE);
+
+			EmbedBuilder builder = getBuilder(auctionItem, false);
 
 			if (builder == null) {
 				Logger.info("Unable to find the embed builder, please check your configuration.", LogType.ERROR);
 				return;
 			}
 
-			Message message = finalChannel.sendMessageEmbeds(builder.build()).complete();
+			Message message = finalChannel.sendMessage((CharSequence) builder.build()).complete();
 
 			if (message == null) {
 				Logger.info("Unable to create the message, please check your configuration.", LogType.ERROR);
 				return;
 			}
 
-			DiscordMessage discordMessage = new DiscordMessage(finalChannel.getIdLong(), message.getIdLong(), auctionItem.getUniqueId());
+			DiscordMessage discordMessage = new DiscordMessage(finalChannel.getIdLong(), message.getIdLong(),
+					auctionItem.getUniqueId());
 
 			if (Config.removeMessage || Config.editMessage)
 				Storage.discordMessages.add(discordMessage);
@@ -98,36 +98,36 @@ public class AuctionListener extends ZUtils implements Listener {
 	@EventHandler
 	public void onRetrieve(AuctionRetrieveEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.RETRIEVED, Config.removeMessage);
+		remove(auctionItem);
 	}
 
 	@EventHandler
-	public void onAdminRemove(AuctionAdminRemoveEvent event) {
+	public void onRetrieve(AuctionAdminRemoveEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.ADMIN_REMOVED, Config.removeMessage);
+		remove(auctionItem);
 	}
 
 	@EventHandler
 	public void onBuy(AuctionPostBuyEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.BOUGHT, Config.removeMessage);
+		remove(auctionItem);
 	}
 
 	@EventHandler
 	public void onExpire(AuctionItemExpireEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.EXPIRED, Config.removeMessage);
+		remove(auctionItem);
 	}
 
-	/**
-	 * Edit or remove the embed
-	 * @param auctionItem the auction item
-	 * @param actionType the action type
-	 * @param removeEmbed if the embed should be removed
-	 */
-	private void editOrRemoveEmbed(AuctionItem auctionItem, ActionType actionType, boolean removeEmbed) {
-		Optional<DiscordMessage> optional = Storage.discordMessages.stream().filter(message -> auctionItem.getUniqueId().equals(message.getUniqueId())).findFirst();
-		if (!optional.isPresent()) return;
+	private void remove(AuctionItem auctionItem) {
+
+		Optional<DiscordMessage> optional = Storage.discordMessages.stream().filter(message -> {
+			return auctionItem.getUniqueId().equals(message.getUniqueId());
+		}).findFirst();
+
+		if (!optional.isPresent()) {
+			return;
+		}
 
 		DiscordMessage discordMessage = optional.get();
 		Storage.discordMessages.remove(discordMessage);
@@ -135,70 +135,63 @@ public class AuctionListener extends ZUtils implements Listener {
 		JDA jda = plugin.getJda();
 		TextChannel channel = jda.getTextChannelById(discordMessage.getChannelID());
 
-		if (channel == null) {
-			Logger.getLogger().log("Unable to find the discord channel, please check your configuration.", LogType.ERROR);
-			return;
-		}
-
 		runAsync(() -> {
+
 			Message message = channel.retrieveMessageById(discordMessage.getMessageID()).complete();
-			if (message == null) return;
 
-			if (removeEmbed) {
+			if (message == null) {
+				return;
+			}
+
+			if (Config.removeMessage) {
 				message.delete().queue();
-				return;
+			} else if (Config.editMessage) {
+				EmbedBuilder builder = getBuilder(auctionItem, true);
+				message.editMessage((CharSequence) builder.build()).queue();
 			}
 
-			EmbedBuilder builder = getBuilder(auctionItem, actionType);
-			if (builder == null) {
-				Logger.getLogger().log("Unable to find the embed builder for Action: %s, please check your configuration.", LogType.ERROR, actionType.name());
-				return;
-			}
-
-			message.editMessageEmbeds(builder.build()).queue();
 		});
 	}
 
 	/**
-	 * Get an embed builder from an ActionType
-	 * @param auctionItem the auction item
-	 * @param actionType the action type
-	 * @return the embed builder or null if the action type is not found
+	 * Replace string
+	 * 
+	 * @return {@link EmbedBuilder}
 	 */
-	@Nullable
-	private EmbedBuilder getBuilder(AuctionItem auctionItem, ActionType actionType) {
+	private EmbedBuilder getBuilder(AuctionItem auctionItem, boolean isEdited) {
+		
 		EmbedBuilder builder = new EmbedBuilder();
-		if (!Config.actions.containsKey(actionType))
-			return null;
-		Action action = Config.actions.get(actionType);
-		builder.setColor(action.getEmbedColor().color());
+		builder.setColor(!isEdited ? Config.embedColor.color() : Config.embedColorEdit.color());
 
-		if (!action.getHeader().equalsIgnoreCase("none"))
-			builder.setTitle(this.replaceString(action.getHeader(), auctionItem));
-
-		if (Config.useTimestamp)
+		if (!Config.header.equalsIgnoreCase("none") || (!Config.headerEdit.equalsIgnoreCase("none") && isEdited)) {
+			builder.setTitle(this.replaceString(!isEdited ? Config.header : Config.headerEdit, auctionItem));
+		}
+		
+		if (Config.useTimestamp) {
 			builder.setTimestamp(OffsetDateTime.now());
-
-		action.getEmbedFields().forEach(embedField -> {
-			if (!(embedField.getMessage().contains("%enchant%") && !embedField.displayWhenEnchantIsNull()
+		}
+		
+		Config.embeds.forEach(item -> {
+			if (!(item.getMessage().contains("%enchant%") && !item.displayWhenEnchantIsNull()
 					&& getEnchant(auctionItem.getItemStack()).equals("nothing"))) {
-
-				builder.addField(replaceString(embedField.getTile(), auctionItem),
-						replaceString(embedField.getMessage(), auctionItem), embedField.isInLine());
+				
+				builder.addField(replaceString(item.getTile(), auctionItem), replaceString(item.getMessage(), auctionItem),
+						item.isInLine());
+				
 			}
 		});
-
-		if (!action.getFooter().equalsIgnoreCase("none"))
-			builder.setFooter(this.replaceString(action.getFooter(), auctionItem), null);
-
+		if (!Config.footer.equalsIgnoreCase("none")) {
+			builder.setFooter(this.replaceString(Config.footer, auctionItem), null);
+		}
+		
 		return builder;
 	}
 
 	/**
-	 * Replace the placeholders in a string
-	 * @param string the string containing the placeholders
-	 * @param auctionItem the auction item
-	 * @return the string with the placeholders replaced
+	 * 
+	 * @param string
+	 * @param auctionItem
+	 * @return
 	 */
 	private String replaceString(String string, AuctionItem auctionItem) {
 
@@ -226,13 +219,13 @@ public class AuctionListener extends ZUtils implements Listener {
 	}
 
 	/**
-	 * Get the enchantments of the item
-	 * @param item the item
-	 * @return a string containing all the enchantments
+	 * 
+	 * @param item
+	 * @return
 	 */
 	private String getEnchant(ItemStack item) {
 		StringBuilder builder = new StringBuilder();
-		if (Config.hideItemEnchantWithHideFlag && item.hasItemMeta() && item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
+		if (Config.hideItemEnchantWithHideFlag && item.getItemMeta().hasItemFlag(ItemFlag.HIDE_ENCHANTS))
 			builder.append("nothing");
 		else if (item.hasItemMeta() && item.getItemMeta().hasEnchants()) {
 			Iterator<Entry<Enchantment, Integer>> it = item.getItemMeta().getEnchants().entrySet().iterator();
