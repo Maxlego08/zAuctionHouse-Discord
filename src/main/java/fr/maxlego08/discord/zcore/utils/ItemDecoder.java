@@ -116,15 +116,17 @@ public class ItemDecoder {
 
 	public static double version;
 
-	public static double getNMSVersion() {
-		if (version != 0)
-			return version;
-		String var1 = Bukkit.getServer().getClass().getPackage().getName();
-		String[] arrayOfString = var1.replace(".", ",").split(",")[3].split("_");
-		String var2 = arrayOfString[0].replace("v", "");
-		String var3 = arrayOfString[1];
-		return version = Double.parseDouble(var2 + "." + var3);
-	}
+    public static double getNMSVersion() {
+        if (version != 0) return version;
+
+        String bukkitVersion = Bukkit.getBukkitVersion();
+        String[] parts = bukkitVersion.split("-")[0].split("\\.");
+
+        String major = parts[0];
+        String minor = parts[1];
+        return version = Double.parseDouble(major + "." + minor);
+    }
+
 
 	/**
 	 *
