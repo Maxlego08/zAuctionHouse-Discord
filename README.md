@@ -16,8 +16,7 @@ Discord bot for zAuctionHouse
 
 * ``%seller%`` - Get seller name
 * ``%buyer%`` - Get buyer name, only for edit message
-* ``%price%`` - Get price
-* ``%currency%`` - Get currency
+* ``%price%`` - Get price and currency
 * ``%amount%`` - Get amount of item's
 * ``%material%`` - Get material name (or replace for your language with <a href="https://groupez.dev/resources/ztranslator.230">zTranslator</a>)
 * ``%enchant%`` - Get enchant list

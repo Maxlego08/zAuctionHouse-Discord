@@ -19,12 +19,11 @@ public class Config implements Saveable {
     public static String discordToken = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
     public static long channelID = 807991026186715146L;
-    public static List<GatewayIntent> gatewayIntents = new ArrayList<GatewayIntent>();
+    public static List<GatewayIntent> gatewayIntents = new ArrayList<>();
 
-    public static boolean use = false;
+    //    public static boolean use = false;
+    public static boolean saveMessage = true;
     public static boolean useTimestamp = true;
-    public static boolean removeMessage = true;
-    public static boolean editMessage = false;
     public static boolean removeExtrasCode = true;
     public static boolean hideItemEnchantWithHideFlag = true;
     public static String game = "zAuctionHouse VDEV-3";
@@ -50,19 +49,19 @@ public class Config implements Saveable {
 
         final EmbedField enchantEmbed = new EmbedField("Enchantment", "Item enchantment: **%enchant%**", false, false);
         actions.put(ActionType.SALE, new Action("none", "zAuctionHouse", new Color(255, 0, 0),
-                Arrays.asList(new EmbedField("Sale", "Player **%seller%** just added x%amount% %material% for **%price%%currency%**", false), enchantEmbed))
+                Arrays.asList(new EmbedField("Sale", "Player **%seller%** just added x%amount% %material% for **%price%**", false), enchantEmbed), true)
         );
         actions.put(ActionType.BOUGHT, new Action("none", "zAuctionHouse", new Color(0, 255, 0),
-                Arrays.asList(new EmbedField("Item bought !", "Player **%buyer%** bought x%amount% %material% for **%price%%currency%** of **%seller%**", false), enchantEmbed))
+                Arrays.asList(new EmbedField("Item bought !", "Player **%buyer%** bought x%amount% %material% for **%price%** of **%seller%**", false), enchantEmbed), true)
         );
         actions.put(ActionType.RETRIEVED, new Action("none", "zAuctionHouse", new Color(0, 255, 0),
-                Arrays.asList(new EmbedField("Item retrieved !", "Player **%seller%** retrieved x%amount% %material% for **%price%%currency%**", false), enchantEmbed))
+                Arrays.asList(new EmbedField("Item retrieved !", "Player **%seller%** retrieved x%amount% %material% for **%price%**", false), enchantEmbed), true)
         );
         actions.put(ActionType.ADMIN_REMOVED, new Action("none", "zAuctionHouse", new Color(0, 255, 0),
-                Arrays.asList(new EmbedField("Item removed by admin !", "Admin removed x%amount% %material% of **%seller%**", false), enchantEmbed))
+                Arrays.asList(new EmbedField("Item removed by admin !", "Admin removed x%amount% %material% of **%seller%**", false), enchantEmbed), true)
         );
         actions.put(ActionType.EXPIRED, new Action("none", "zAuctionHouse", new Color(0, 255, 0),
-                Arrays.asList(new EmbedField("Item expired !", "Item x%amount% %material% of **%seller%** has expired", false), enchantEmbed))
+                Arrays.asList(new EmbedField("Item expired !", "Item x%amount% %material% of **%seller%** has expired", false), enchantEmbed), true)
         );
     }
 

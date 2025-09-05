@@ -487,6 +487,46 @@ public abstract class ZUtils extends MessageUtils {
 	}
 
 	/**
+	 * This method is used to strip extra characters from a given string.
+	 * It uses a predefined pattern (STRIP_EXTRAS_PATTERN) to find the characters to be replaced.
+	 *
+	 * @param string The input string from which extras are to be stripped.
+	 * @return The modified string after replacement.
+	 */
+	protected String stripExtrasCode(String string) {
+		return stripExtrasCode(string, true);
+	}
+
+	/**
+	 * This method is used to strip extra characters from a given string.
+	 * It uses a predefined pattern (STRIP_EXTRAS_PATTERN) to find the characters to be replaced.
+	 *
+	 * @param string The input string from which extras are to be stripped.
+	 * @param replace A boolean flag indicating whether to perform the replacement operation or not.
+	 *                If it's false, the method will return the original string without any modification.
+	 * @return The modified string after replacement.
+	 */
+	protected String stripExtrasCode(String string, boolean replace) {
+		return stripExtrasCode(string, replace, "");
+	}
+
+	/**
+	 * This method is used to strip or replace extra characters from a given string.
+	 * It uses a predefined pattern (STRIP_EXTRAS_PATTERN) to find the characters to be replaced.
+	 *
+	 * @param string The input string from which extras are to be stripped.
+	 * @param replace A boolean flag indicating whether to perform the replacement operation or not.
+	 *                If it's false, the method will return the original string without any modification.
+	 * @param replacement The string that will replace the matched pattern in the original string.
+	 *                    This parameter is ignored if 'replace' is false.
+	 * @return The modified string after replacement. If 'replace' is false, it returns the original string.
+	 */
+	protected String stripExtrasCode(String string, boolean replace, String replacement) {
+		if (!replace) return string;
+		return STRIP_EXTRAS_PATTERN.matcher(string).replaceAll(replacement);
+	}
+
+	/**
 	 * 
 	 * @param message
 	 * @return

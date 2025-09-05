@@ -11,12 +11,14 @@ public class Action {
     private final String footer;
     private final Color embedColor;
     private final List<EmbedField> embedFields;
+    private final boolean removeMessage;
 
-    public Action(String header, String footer, Color embedColor, List<EmbedField> embedFields) {
+    public Action(String header, String footer, Color embedColor, List<EmbedField> embedFields, boolean removeMessage) {
         this.header = header;
         this.footer = footer;
         this.embedColor = embedColor;
         this.embedFields = embedFields;
+        this.removeMessage = removeMessage;
     }
 
     public String getHeader() {
@@ -33,5 +35,9 @@ public class Action {
 
     public List<EmbedField> getEmbedFields() {
         return embedFields;
+    }
+
+    public boolean isMessageRemoved() {
+        return removeMessage;
     }
 }

@@ -89,43 +89,41 @@ public class AuctionListener extends ZUtils implements Listener {
 
 			DiscordMessage discordMessage = new DiscordMessage(finalChannel.getIdLong(), message.getIdLong(), auctionItem.getUniqueId());
 
-			if (Config.removeMessage || Config.editMessage)
+			if (Config.saveMessage)
 				Storage.discordMessages.add(discordMessage);
-
 		});
 	}
 
 	@EventHandler
 	public void onRetrieve(AuctionRetrieveEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.RETRIEVED, Config.removeMessage);
+		editOrRemoveEmbed(auctionItem, ActionType.RETRIEVED);
 	}
 
 	@EventHandler
 	public void onAdminRemove(AuctionAdminRemoveEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.ADMIN_REMOVED, Config.removeMessage);
+		editOrRemoveEmbed(auctionItem, ActionType.ADMIN_REMOVED);
 	}
 
 	@EventHandler
 	public void onBuy(AuctionPostBuyEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.BOUGHT, Config.removeMessage);
+		editOrRemoveEmbed(auctionItem, ActionType.BOUGHT);
 	}
 
 	@EventHandler
 	public void onExpire(AuctionItemExpireEvent event) {
 		AuctionItem auctionItem = event.getAuctionItem();
-		editOrRemoveEmbed(auctionItem, ActionType.EXPIRED, Config.removeMessage);
+		editOrRemoveEmbed(auctionItem, ActionType.EXPIRED);
 	}
 
 	/**
 	 * Edit or remove the embed
 	 * @param auctionItem the auction item
 	 * @param actionType the action type
-	 * @param removeEmbed if the embed should be removed
 	 */
-	private void editOrRemoveEmbed(AuctionItem auctionItem, ActionType actionType, boolean removeEmbed) {
+	private void editOrRemoveEmbed(AuctionItem auctionItem, ActionType actionType) {
 		Optional<DiscordMessage> optional = Storage.discordMessages.stream().filter(message -> auctionItem.getUniqueId().equals(message.getUniqueId())).findFirst();
 		if (!optional.isPresent()) return;
 
@@ -144,7 +142,8 @@ public class AuctionListener extends ZUtils implements Listener {
 			Message message = channel.retrieveMessageById(discordMessage.getMessageID()).complete();
 			if (message == null) return;
 
-			if (removeEmbed) {
+			boolean removeMessage = Config.actions.get(actionType).isMessageRemoved();
+			if (removeMessage) {
 				message.delete().queue();
 				return;
 			}
@@ -201,14 +200,13 @@ public class AuctionListener extends ZUtils implements Listener {
 	 * @return the string with the placeholders replaced
 	 */
 	private String replaceString(String string, AuctionItem auctionItem) {
-
 		string = string.replace("%seller%", auctionItem.getSeller().getName());
 
 		if (auctionItem.getBuyerUniqueId() != null) {
 			string = string.replace("%buyer%", auctionItem.getBuyer().getName());
 		}
 
-		string = string.replace("%price%", auctionItem.priceFormat());
+		string = string.replace("%price%", stripExtrasCode(auctionItem.priceFormat(), Config.removeExtrasCode));
 
 		switch (auctionItem.getType()) {
 		case DEFAULT:
